@@ -17,6 +17,7 @@
 @property (strong, nonatomic) SKLabelNode *myLabel;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
+@property (strong, nonatomic) SKShapeNode *textBox;
 @end
 
 @implementation GameScene
@@ -52,6 +53,16 @@
         SKAction *zoom = [SKAction scaleTo:0.5 duration:0];
         [self.princess runAction:zoom];
         [self addChild:self.princess];
+        
+        self.textBox = [SKShapeNode node];
+        CGMutablePathRef  rectPath = CGPathCreateMutable();
+        CGPathAddRect(rectPath, nil, CGRectMake(0, 0, 10, 10));
+        self.textBox.path = rectPath;
+        CGPathRelease(rectPath);
+        self.textBox.fillColor =  [SKColor grayColor];
+        self.textBox.lineWidth = 0;
+        [self.textBox setPosition:CGPointMake(0, 0)];
+        [self addChild:self.textBox];
     }
     return self;
 }
@@ -83,19 +94,20 @@
         [self.brush setPosition:position];
         [self addChild:self.brush];
         
-        SKAction *move = [SKAction moveTo:CGPointMake(self.size.width+self.brush.size.width/2,position.y) duration:1];
+        SKAction *posy = [SKAction moveToY:self.princess.position.y duration:0];
+        SKAction *move = [SKAction moveTo:CGPointMake(self.size.width+self.brush.size.width/2,self.princess.position.y) duration:1];
         SKAction *destroy = [SKAction removeFromParent];
         SKAction *clearBrush = [SKAction runBlock:^
                                 {
                                     self.brush = nil;
                                 }];
-        [self.brush runAction:[SKAction sequence:@[move, clearBrush, destroy]]];
+        [self.brush runAction:[SKAction sequence:@[posy, move, clearBrush, destroy]]];
     }
 }
 
 -(void)update:(CFTimeInterval)currentTime
 {
-    [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y)];
+    [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y*2)];
     [self checkButtons];
 }
 
