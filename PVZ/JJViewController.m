@@ -7,6 +7,9 @@
 //
 
 #import "JJViewController.h"
+#import <SpriteKit/SpriteKit.h>
+#import "TitleScene.h"
+#import "GameScene.h"
 
 @interface JJViewController ()
 
@@ -17,13 +20,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    SKView *spriteView = (SKView *) self.view;
+    spriteView.showsDrawCount = YES;
+    spriteView.showsNodeCount = YES;
+    spriteView.showsFPS = YES;
 }
 
-- (void)didReceiveMemoryWarning
+
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    SKView *spriteView = (SKView*)self.view;
+    CGSize aSize = CGSizeMake(568, 320);    //spriteView.frame.size;
+    
+#if 0
+    TitleScene *title = [[TitleScene alloc] initWithSize:aSize];
+    [spriteView presentScene:title];
+#else
+    GameScene *game = [[GameScene alloc] initWithSize:aSize];
+    [spriteView presentScene:game];
+#endif
 }
 
 @end

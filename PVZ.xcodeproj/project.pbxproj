@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A7DB93F1890CDC900EBB851 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB93E1890CDC900EBB851 /* princess.png */; };
+		7A7DB941189222E800EBB851 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB940189222E800EBB851 /* brush.png */; };
 		7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7D187CF07E00D4F868 /* Foundation.framework */; };
 		7ADD6B80187CF07E00D4F868 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */; };
 		7ADD6B82187CF07E00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
@@ -22,6 +24,11 @@
 		7ADD6BA2187CF07F00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
 		7ADD6BAA187CF07F00D4F868 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD6BA8187CF07F00D4F868 /* InfoPlist.strings */; };
 		7ADD6BAC187CF07F00D4F868 /* PVZTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD6BAB187CF07F00D4F868 /* PVZTests.m */; };
+		7ADD6BB6187CF09400D4F868 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */; };
+		7ADD6BB9187CF34F00D4F868 /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD6BB8187CF34F00D4F868 /* TitleScene.m */; };
+		7AF02396187FA32200362225 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF02395187FA32200362225 /* GameScene.m */; };
+		7AF0239B187FA70500362225 /* JCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF02398187FA70500362225 /* JCButton.m */; };
+		7AF0239C187FA70500362225 /* JCJoystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF0239A187FA70500362225 /* JCJoystick.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A7DB93E1890CDC900EBB851 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = princess.png; path = ../../../Desktop/princess.png; sourceTree = "<group>"; };
+		7A7DB940189222E800EBB851 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush.png; path = ../../../Desktop/brush.png; sourceTree = "<group>"; };
 		7ADD6B7A187CF07E00D4F868 /* PVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B7D187CF07E00D4F868 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -55,6 +64,15 @@
 		7ADD6BA7187CF07F00D4F868 /* PVZTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PVZTests-Info.plist"; sourceTree = "<group>"; };
 		7ADD6BA9187CF07F00D4F868 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7ADD6BAB187CF07F00D4F868 /* PVZTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVZTests.m; sourceTree = "<group>"; };
+		7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		7ADD6BB7187CF34F00D4F868 /* TitleScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleScene.h; sourceTree = "<group>"; };
+		7ADD6BB8187CF34F00D4F868 /* TitleScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleScene.m; sourceTree = "<group>"; };
+		7AF02394187FA32200362225 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		7AF02395187FA32200362225 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		7AF02397187FA70500362225 /* JCButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCButton.h; path = "../../../Downloads/JCInput-master/JCInput/JCButton.h"; sourceTree = "<group>"; };
+		7AF02398187FA70500362225 /* JCButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCButton.m; path = "../../../Downloads/JCInput-master/JCInput/JCButton.m"; sourceTree = "<group>"; };
+		7AF02399187FA70500362225 /* JCJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JCJoystick.h; path = "../../../Downloads/JCInput-master/JCInput/JCJoystick.h"; sourceTree = "<group>"; };
+		7AF0239A187FA70500362225 /* JCJoystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JCJoystick.m; path = "../../../Downloads/JCInput-master/JCInput/JCJoystick.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ADD6BB6187CF09400D4F868 /* SpriteKit.framework in Frameworks */,
 				7ADD6B80187CF07E00D4F868 /* CoreGraphics.framework in Frameworks */,
 				7ADD6B82187CF07E00D4F868 /* UIKit.framework in Frameworks */,
 				7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */,
@@ -103,6 +122,7 @@
 		7ADD6B7C187CF07E00D4F868 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */,
 				7ADD6B7D187CF07E00D4F868 /* Foundation.framework */,
 				7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */,
 				7ADD6B81187CF07E00D4F868 /* UIKit.framework */,
@@ -114,6 +134,12 @@
 		7ADD6B83187CF07E00D4F868 /* PVZ */ = {
 			isa = PBXGroup;
 			children = (
+				7A7DB940189222E800EBB851 /* brush.png */,
+				7A7DB93E1890CDC900EBB851 /* princess.png */,
+				7AF02397187FA70500362225 /* JCButton.h */,
+				7AF02398187FA70500362225 /* JCButton.m */,
+				7AF02399187FA70500362225 /* JCJoystick.h */,
+				7AF0239A187FA70500362225 /* JCJoystick.m */,
 				7ADD6B8C187CF07E00D4F868 /* JJAppDelegate.h */,
 				7ADD6B8D187CF07E00D4F868 /* JJAppDelegate.m */,
 				7ADD6B8F187CF07E00D4F868 /* Main_iPhone.storyboard */,
@@ -122,6 +148,10 @@
 				7ADD6B96187CF07E00D4F868 /* JJViewController.m */,
 				7ADD6B98187CF07E00D4F868 /* Images.xcassets */,
 				7ADD6B84187CF07E00D4F868 /* Supporting Files */,
+				7ADD6BB7187CF34F00D4F868 /* TitleScene.h */,
+				7ADD6BB8187CF34F00D4F868 /* TitleScene.m */,
+				7AF02394187FA32200362225 /* GameScene.h */,
+				7AF02395187FA32200362225 /* GameScene.m */,
 			);
 			path = PVZ;
 			sourceTree = "<group>";
@@ -234,6 +264,8 @@
 			files = (
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,
+				7A7DB941189222E800EBB851 /* brush.png in Resources */,
+				7A7DB93F1890CDC900EBB851 /* princess.png in Resources */,
 				7ADD6B91187CF07E00D4F868 /* Main_iPhone.storyboard in Resources */,
 				7ADD6B88187CF07E00D4F868 /* InfoPlist.strings in Resources */,
 			);
@@ -254,9 +286,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AF0239B187FA70500362225 /* JCButton.m in Sources */,
 				7ADD6B8E187CF07E00D4F868 /* JJAppDelegate.m in Sources */,
 				7ADD6B97187CF07E00D4F868 /* JJViewController.m in Sources */,
+				7AF02396187FA32200362225 /* GameScene.m in Sources */,
 				7ADD6B8A187CF07E00D4F868 /* main.m in Sources */,
+				7ADD6BB9187CF34F00D4F868 /* TitleScene.m in Sources */,
+				7AF0239C187FA70500362225 /* JCJoystick.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +511,7 @@
 				7ADD6BB1187CF07F00D4F868 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7ADD6BB2187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PVZTests" */ = {
 			isa = XCConfigurationList;
@@ -483,6 +520,7 @@
 				7ADD6BB4187CF07F00D4F868 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
