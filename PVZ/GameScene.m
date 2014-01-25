@@ -18,6 +18,7 @@
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
 @property (strong, nonatomic) SKShapeNode *textBox;
+@property (strong, nonatomic) SKSpriteNode *background;
 @end
 
 @implementation GameScene
@@ -32,7 +33,6 @@
 
 - (void)createSceneContents
 {
-    self.backgroundColor = [SKColor blackColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
     self.princess.position = CGPointMake(50, 125);
 }
@@ -41,11 +41,22 @@
 {
     if (self = [super initWithSize:size])
     {
+        self.background = [SKSpriteNode node];
+        [self addChild:self.background];
+        
+        SKNode *background1 = [SKSpriteNode spriteNodeWithImageNamed:@"background.png"];
+        background1.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)+50);
+        background1.zPosition = -1;
+        SKAction *scale = [SKAction scaleTo:0.6 duration:0];
+        [background1 runAction:scale];
+        
+        [self.background addChild:background1];
+        
         self.joystick = [[JCJoystick alloc] initWithControlRadius:25 baseRadius:45 baseColor:[SKColor blueColor] joystickRadius:25 joystickColor:[SKColor redColor]];
         [self.joystick setPosition:CGPointMake(70,70)];
         [self addChild:self.joystick];
         
-        self.normalButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor greenColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+        self.normalButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor orangeColor] pressedColor:[SKColor blackColor] isTurbo:NO];
         [self.normalButton setPosition:CGPointMake(size.width - 40,95)];
         [self addChild:self.normalButton];
         

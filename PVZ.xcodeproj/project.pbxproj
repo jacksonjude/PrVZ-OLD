@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A16436A18938872006FEE95 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A16436918938872006FEE95 /* background.png */; };
 		7A7DB93F1890CDC900EBB851 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB93E1890CDC900EBB851 /* princess.png */; };
 		7A7DB941189222E800EBB851 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB940189222E800EBB851 /* brush.png */; };
 		7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7D187CF07E00D4F868 /* Foundation.framework */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A16436918938872006FEE95 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../Desktop/background.png; sourceTree = "<group>"; };
 		7A7DB93E1890CDC900EBB851 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = princess.png; path = ../../../Desktop/princess.png; sourceTree = "<group>"; };
 		7A7DB940189222E800EBB851 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush.png; path = ../../../Desktop/brush.png; sourceTree = "<group>"; };
 		7ADD6B7A187CF07E00D4F868 /* PVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +136,7 @@
 		7ADD6B83187CF07E00D4F868 /* PVZ */ = {
 			isa = PBXGroup;
 			children = (
+				7A16436918938872006FEE95 /* background.png */,
 				7A7DB940189222E800EBB851 /* brush.png */,
 				7A7DB93E1890CDC900EBB851 /* princess.png */,
 				7AF02397187FA70500362225 /* JCButton.h */,
@@ -264,6 +267,7 @@
 			files = (
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,
+				7A16436A18938872006FEE95 /* background.png in Resources */,
 				7A7DB941189222E800EBB851 /* brush.png in Resources */,
 				7A7DB93F1890CDC900EBB851 /* princess.png in Resources */,
 				7ADD6B91187CF07E00D4F868 /* Main_iPhone.storyboard in Resources */,
