@@ -25,7 +25,8 @@
 @property (strong, nonatomic) SKLabelNode *helpContent;
 @property (strong, nonatomic) SKSpriteNode *zombie;
 @property (nonatomic) NSInteger zombieCount;
-@property (nonatomic) BOOL usesPreciseCollisionDetection;
+@property (nonatomic) NSInteger zombieAlive;
+@property (nonatomic) NSInteger zombieSpeed;
 @end
 
 @implementation GameScene
@@ -41,6 +42,7 @@
 
 static const uint32_t projectileCategory     =  0x1 << 0;
 static const uint32_t monsterCategory        =  0x1 << 1;
+static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)createSceneContents
 {
@@ -109,6 +111,12 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     self.princess = [SKSpriteNode spriteNodeWithImageNamed:@"princess.png"];
     self.princess.position = CGPointMake(80, 125);
     self.princess.zPosition = -1;
+    self.princess.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:self.princess.size.width/2];
+    self.princess.physicsBody.dynamic = YES;
+    self.princess.physicsBody.categoryBitMask = princessCategory;
+    self.princess.physicsBody.contactTestBitMask = monsterCategory;
+    self.princess.physicsBody.collisionBitMask = 0;
+    self.princess.physicsBody.usesPreciseCollisionDetection = YES;
     SKAction *zoom = [SKAction scaleTo:0.5 duration:0];
     [self.princess runAction:zoom];
     [self addChild:self.princess];
@@ -154,6 +162,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
 
 - (void)killZ
 {
+    self.zombieCount++;
     SKNode   *body = [self.zombie childNodeWithName:@"body"];
     [body removeFromParent];
     
@@ -163,6 +172,8 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     [self.zombie addChild:zombieD];
     
     [self.zombie removeAllActions];
+    
+    self.zombieAlive = 0;
 }
 
 
@@ -213,7 +224,11 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     {
         [self projectile:(SKSpriteNode *) firstBody.node didCollideWithMonster:(SKSpriteNode *) secondBody.node];
     }
-
+    if ((firstBody.categoryBitMask & monsterCategory) != 0 &&
+        (secondBody.categoryBitMask & princessCategory) != 0)
+    {
+        [self zombie:(SKSpriteNode *) firstBody.node didCollideWithPrincess:(SKSpriteNode *) secondBody.node];
+    }
 }
 
 - (void)projectile:(SKSpriteNode *)brush didCollideWithMonster:(SKSpriteNode *)zombieBody
@@ -228,15 +243,50 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     if (zombieBody == [self.zombie childNodeWithName:@"body"])
     {
         [self killZ];
-        self.zombieCount = 0;
     }
+}
+
+- (void)zombie:(SKSpriteNode *)zombieBody didCollideWithPrincess:(SKSpriteNode *)princess
+{
+    NSLog(@"PrincessDIE");
+    if (princess == self.princess)
+    {
+        [self Die];
+    }
+    
+    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    {
+        [self killZ];
+    }
+}
+
+- (void)Die
+{
+    SKAction *hide = [SKAction fadeOutWithDuration:0.1];
+    SKAction *show = [SKAction fadeInWithDuration:0.1];
+    SKAction *wait = [SKAction waitForDuration:0.5];
+    [self.princess runAction:[SKAction sequence:@[hide, wait, show, wait, hide, wait, show, wait, hide]]];
+    
+    SKLabelNode *GameOver = [SKLabelNode node];
+    GameOver.text = @"Game Over";
+    GameOver.fontSize = 48;
+    GameOver.fontColor = [SKColor redColor];
+    GameOver.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:GameOver];
+    
+    SKLabelNode *ScoreText = [SKLabelNode node];
+    ScoreText.text = @"Your Score: ",self.zombieCount;
+    ScoreText.fontSize = 48;
+    ScoreText.fontColor = [SKColor redColor];
+    ScoreText.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
+    [self addChild:ScoreText];
 }
 
 - (void)playGame
 {
-    if (self.zombieCount == 0)
+    if (self.zombieAlive == 0)
     {
-        self.zombieCount = 1;
+        self.zombieAlive = 1;
         
         self.zombie = [SKSpriteNode node];
         [self addChild:self.zombie];
@@ -256,7 +306,18 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         zombieNA.name = @"body";
         [self.zombie addChild:zombieNA];
         
-        SKAction *moveZombie = [SKAction moveByX:-1.0 y:0 duration:0.1];
+        if (self.zombieSpeed != 0)
+        {
+            self.zombieSpeed = self.zombieSpeed*2;
+            NSLog(@"Increased zombie speed by 50 percent to:%i",self.zombieSpeed);
+        }
+        
+        if (self.zombieSpeed == 0)
+        {
+            self.zombieSpeed = -1;
+        }
+        
+        SKAction *moveZombie = [SKAction moveByX:self.zombieSpeed y:0 duration:0.1];
         [self.zombie runAction:[SKAction repeatActionForever:[SKAction sequence:@[moveZombie]]]];
         
     }
