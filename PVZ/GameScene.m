@@ -55,7 +55,7 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     
     [self.background addChild:background1];
     
-    self.joystick = [[JCJoystick alloc] initWithControlRadius:20 baseRadius:29 baseColor:[SKColor blueColor] joystickRadius:20 joystickColor:[SKColor redColor]];
+    self.joystick = [[JCJoystick alloc] initWithControlRadius:25 baseRadius:34 baseColor:[SKColor blueColor] joystickRadius:25 joystickColor:[SKColor redColor]];
     self.joystick.zPosition = +1;
     [self.joystick setPosition:CGPointMake(35,35)];
     [self addChild:self.joystick];
