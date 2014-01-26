@@ -16,6 +16,7 @@
 @property (strong, nonatomic) JCButton *normalButton;
 @property (strong, nonatomic) JCButton *helpButton;
 @property (strong, nonatomic) JCButton *playButton;
+@property (strong, nonatomic) JCButton *killButton;
 @property (strong, nonatomic) SKLabelNode *myLabel;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
@@ -23,6 +24,7 @@
 @property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKLabelNode *helpContent;
 @property (strong, nonatomic) SKSpriteNode *zombie;
+@property (nonatomic) NSInteger zombieCount;
 @property (nonatomic) BOOL usesPreciseCollisionDetection;
 @end
 
@@ -93,6 +95,17 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         helpButtonTitle.fontSize = 18;
         [self.helpButton addChild:helpButtonTitle];
     
+    self.killButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    [self.killButton setPosition:CGPointMake(CGRectGetMidX(self.frame)+142, 275)];
+    self.killButton.zPosition = +1;
+    [self addChild:self.killButton];
+    
+        SKLabelNode     *killButtonTitle = [SKLabelNode node];
+        killButtonTitle.text = @"KillZ";
+        [killButtonTitle setPosition:CGPointMake(0, -6.25)];
+        killButtonTitle.fontSize = 18;
+        [self.killButton addChild:killButtonTitle];
+    
     self.princess = [SKSpriteNode spriteNodeWithImageNamed:@"princess.png"];
     self.princess.position = CGPointMake(80, 125);
     self.princess.zPosition = -1;
@@ -125,7 +138,6 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     {
         [self addBrushIn:CGPointMake(0,self.size.height-40)];
     }
-    
     if (self.helpButton.isOn)
     {
         [self showHelp];
@@ -134,24 +146,25 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     {
         [self playGame];
     }
+    if (self.killButton.isOn)
+    {
+        [self killZ];
+    }
 }
 
-- (void)playGame
+- (void)killZ
 {
-    self.zombie = [SKSpriteNode node];
-    [self addChild:self.zombie];
+    SKNode   *body = [self.zombie childNodeWithName:@"body"];
+    [body removeFromParent];
     
-    int values[4] = {25, 50, 75, 100};
-    int value = values[random() % 4];
-    SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombie.png"];
-    zombieNA.position = CGPointMake(500, value);
-    zombieNA.size = CGSizeMake(zombieNA.size.width*1.5, zombieNA.size.height*1.5);
-    zombieNA.zPosition = -1;
-    [self.zombie addChild:zombieNA];
+    SKSpriteNode *zombieD = [SKSpriteNode spriteNodeWithImageNamed:@"ash.png"];
+    zombieD.zPosition = -1;
+    zombieD.name = @"ash";
+    [self.zombie addChild:zombieD];
     
-    SKAction *moveZombie = [SKAction moveByX:-1.0 y:0 duration:0.1];
-    [zombieNA runAction:[SKAction repeatActionForever:moveZombie]];
+    [self.zombie removeAllActions];
 }
+
 
 - (void)addBrushIn:(CGPoint)position
 {
@@ -159,6 +172,12 @@ static const uint32_t monsterCategory        =  0x1 << 1;
     {
         self.brush = [SKSpriteNode spriteNodeWithImageNamed:@"brush.png"];
         [self.brush setPosition:position];
+        self.brush.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:self.brush.size.width/2];
+        self.brush.physicsBody.dynamic = YES;
+        self.brush.physicsBody.categoryBitMask = projectileCategory;
+        self.brush.physicsBody.contactTestBitMask = monsterCategory;
+        self.brush.physicsBody.collisionBitMask = 0;
+        self.brush.physicsBody.usesPreciseCollisionDetection = YES;
         [self addChild:self.brush];
         
         SKAction *posy = [SKAction moveToY:self.princess.position.y duration:0];
@@ -171,6 +190,78 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         [self.brush runAction:[SKAction sequence:@[posy, move, clearBrush, destroy]]];
     }
 }
+
+- (void)didBeginContact:(SKPhysicsContact *)contact
+{
+    NSLog(@"physicsContact = %@", contact);
+    SKPhysicsBody *firstBody, *secondBody;
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    // 2
+    if ((firstBody.categoryBitMask & projectileCategory) != 0 &&
+        (secondBody.categoryBitMask & monsterCategory) != 0)
+    {
+        [self projectile:(SKSpriteNode *) firstBody.node didCollideWithMonster:(SKSpriteNode *) secondBody.node];
+    }
+
+}
+
+- (void)projectile:(SKSpriteNode *)brush didCollideWithMonster:(SKSpriteNode *)zombieBody
+{
+    NSLog(@"Hit");
+    if (brush == self.brush)
+    {
+        [self.brush removeFromParent];
+        self.brush = nil;
+    }
+    
+    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    {
+        [self killZ];
+        self.zombieCount = 0;
+    }
+}
+
+- (void)playGame
+{
+    if (self.zombieCount == 0)
+    {
+        self.zombieCount = 1;
+        
+        self.zombie = [SKSpriteNode node];
+        [self addChild:self.zombie];
+        
+        int values[6] = {25, 50, 75, 100, 125, 150};
+        int value = values[random() % 6];
+        self.zombie.position = CGPointMake(500, value);
+        
+        SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombie.png"];
+        zombieNA.size = CGSizeMake(zombieNA.size.width*1.5, zombieNA.size.height*1.5);
+        zombieNA.zPosition = -1;
+        zombieNA.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:zombieNA.size]; // 1
+        zombieNA.physicsBody.dynamic = YES; // 2
+        zombieNA.physicsBody.categoryBitMask = monsterCategory; // 3
+        zombieNA.physicsBody.contactTestBitMask = projectileCategory; // 4
+        zombieNA.physicsBody.collisionBitMask = 0; // 5
+        zombieNA.name = @"body";
+        [self.zombie addChild:zombieNA];
+        
+        SKAction *moveZombie = [SKAction moveByX:-1.0 y:0 duration:0.1];
+        [self.zombie runAction:[SKAction repeatActionForever:[SKAction sequence:@[moveZombie]]]];
+        
+    }
+}
+
 
 - (void)showHelp
 {
@@ -230,6 +321,8 @@ static const uint32_t monsterCategory        =  0x1 << 1;
         [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
     }
 }
+
+
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
