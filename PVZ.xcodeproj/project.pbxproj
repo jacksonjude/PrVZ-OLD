@@ -10,6 +10,7 @@
 		7A16436A18938872006FEE95 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A16436918938872006FEE95 /* background.png */; };
 		7A7DB93F1890CDC900EBB851 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB93E1890CDC900EBB851 /* princess.png */; };
 		7A7DB941189222E800EBB851 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB940189222E800EBB851 /* brush.png */; };
+		7ACD825E1894A86E00F972F9 /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ACD825D1894A86E00F972F9 /* zombie.png */; };
 		7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7D187CF07E00D4F868 /* Foundation.framework */; };
 		7ADD6B80187CF07E00D4F868 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */; };
 		7ADD6B82187CF07E00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
@@ -46,6 +47,7 @@
 		7A16436918938872006FEE95 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../Desktop/background.png; sourceTree = "<group>"; };
 		7A7DB93E1890CDC900EBB851 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = princess.png; path = ../../../Desktop/princess.png; sourceTree = "<group>"; };
 		7A7DB940189222E800EBB851 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush.png; path = ../../../Desktop/brush.png; sourceTree = "<group>"; };
+		7ACD825D1894A86E00F972F9 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = zombie.png; path = ../../../Desktop/zombie.png; sourceTree = "<group>"; };
 		7ADD6B7A187CF07E00D4F868 /* PVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B7D187CF07E00D4F868 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -136,6 +138,7 @@
 		7ADD6B83187CF07E00D4F868 /* PVZ */ = {
 			isa = PBXGroup;
 			children = (
+				7ACD825D1894A86E00F972F9 /* zombie.png */,
 				7A16436918938872006FEE95 /* background.png */,
 				7A7DB940189222E800EBB851 /* brush.png */,
 				7A7DB93E1890CDC900EBB851 /* princess.png */,
@@ -268,6 +271,7 @@
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,
 				7A16436A18938872006FEE95 /* background.png in Resources */,
+				7ACD825E1894A86E00F972F9 /* zombie.png in Resources */,
 				7A7DB941189222E800EBB851 /* brush.png in Resources */,
 				7A7DB93F1890CDC900EBB851 /* princess.png in Resources */,
 				7ADD6B91187CF07E00D4F868 /* Main_iPhone.storyboard in Resources */,

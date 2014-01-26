@@ -24,7 +24,7 @@
     SKView *spriteView = (SKView *) self.view;
     spriteView.showsDrawCount = YES;
     spriteView.showsNodeCount = YES;
-    spriteView.showsFPS = YES;
+    spriteView.showsFPS = YES;    
 }
 
 
