@@ -16,7 +16,7 @@
 @property (strong, nonatomic) JCButton *normalButton;
 @property (strong, nonatomic) JCButton *helpButton;
 @property (strong, nonatomic) JCButton *playButton;
-@property (strong, nonatomic) JCButton *killButton;
+@property (strong, nonatomic) JCButton *resetButton;
 @property (strong, nonatomic) SKLabelNode *myLabel;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
@@ -24,9 +24,13 @@
 @property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKLabelNode *helpContent;
 @property (strong, nonatomic) SKSpriteNode *zombie;
+@property (strong, nonatomic) SKShapeNode *wall;
+@property (strong, nonatomic) SKLabelNode *GameOver;
+@property (strong, nonatomic) SKLabelNode *ScoreText;
 @property (nonatomic) NSInteger zombieCount;
 @property (nonatomic) NSInteger zombieAlive;
 @property (nonatomic) NSInteger zombieSpeed;
+@property (nonatomic) NSInteger alive;
 @end
 
 @implementation GameScene
@@ -81,7 +85,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self addChild:self.playButton];
     
         SKLabelNode     *playButtonTitle = [SKLabelNode node];
-        playButtonTitle.text = @"Play";
+        playButtonTitle.text = @"Start";
         [playButtonTitle setPosition:CGPointMake(0, -6.25)];
         playButtonTitle.fontSize = 18;
         [self.playButton addChild:playButtonTitle];
@@ -97,16 +101,16 @@ static const uint32_t princessCategory       =  0x1 << 2;
         helpButtonTitle.fontSize = 18;
         [self.helpButton addChild:helpButtonTitle];
     
-    self.killButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
-    [self.killButton setPosition:CGPointMake(CGRectGetMidX(self.frame)+142, 275)];
-    self.killButton.zPosition = +1;
-    [self addChild:self.killButton];
+    self.resetButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    [self.resetButton setPosition:CGPointMake(CGRectGetMidX(self.frame)+142, 275)];
+    self.resetButton.zPosition = +1;
+    [self addChild:self.resetButton];
     
         SKLabelNode     *killButtonTitle = [SKLabelNode node];
-        killButtonTitle.text = @"KillZ";
+        killButtonTitle.text = @"Reset";
         [killButtonTitle setPosition:CGPointMake(0, -6.25)];
         killButtonTitle.fontSize = 18;
-        [self.killButton addChild:killButtonTitle];
+        [self.resetButton addChild:killButtonTitle];
     
     self.princess = [SKSpriteNode spriteNodeWithImageNamed:@"princess.png"];
     self.princess.position = CGPointMake(80, 125);
@@ -121,6 +125,23 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self.princess runAction:zoom];
     [self addChild:self.princess];
     
+    self.wall = [SKShapeNode node];
+    CGMutablePathRef  rectPath1 = CGPathCreateMutable();
+    CGPathAddRect(rectPath1, nil, CGRectMake(0, 0, 20, 320));
+    self.wall.path = rectPath1;
+    CGPathRelease(rectPath1);
+    self.wall.fillColor = [SKColor grayColor];
+    self.wall.lineWidth = 0;
+    self.wall.zPosition = -1;
+    [self.wall setPosition:CGPointMake(5, 0)];
+    self.wall.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:self.princess.size.width/2];
+    self.wall.physicsBody.dynamic = YES;
+    self.wall.physicsBody.categoryBitMask = princessCategory;
+    self.wall.physicsBody.contactTestBitMask = monsterCategory;
+    self.wall.physicsBody.collisionBitMask = 0;
+    self.wall.physicsBody.usesPreciseCollisionDetection = YES;
+    [self addChild:self.wall];
+    
     self.physicsWorld.gravity = CGVectorMake(0,0);
     self.physicsWorld.contactDelegate = self;
     
@@ -133,6 +154,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.textBox.lineWidth = 0;
     [self.textBox setPosition:CGPointMake(CGRectGetMidX(self.frame)-284, 225)];
     [self addChild:self.textBox];
+    
+    self.alive = 1;
 }
 
 - (void)isZombieTouching
@@ -142,27 +165,46 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)checkButtons
 {
-    if (self.normalButton.isOn)
+    if (self.alive == 1)
     {
-        [self addBrushIn:CGPointMake(0,self.size.height-40)];
+        if (self.normalButton.isOn)
+        {
+            [self addBrushIn:CGPointMake(0,self.size.height-40)];
+        }
+        if (self.helpButton.isOn)
+        {
+            [self showHelp];
+        }
+        if (self.playButton.isOn)
+        {
+            [self playGame];
+        }
+        if (self.resetButton.isOn)
+        {
+            [self reset];
+        }
     }
-    if (self.helpButton.isOn)
-    {
-        [self showHelp];
-    }
-    if (self.playButton.isOn)
-    {
-        [self playGame];
-    }
-    if (self.killButton.isOn)
-    {
-        [self killZ];
-    }
+}
+
+- (void)reset
+{
+    self.zombieCount = 0;
+    self.zombieSpeed = 0;
+    SKAction *hide = [SKAction fadeOutWithDuration:0];
+    SKAction *show = [SKAction fadeInWithDuration:0];
+    [self.GameOver runAction:hide];
+    [self.ScoreText runAction:hide];
+    [self.princess runAction:show];
+    
+    SKNode *ash = [self.zombie childNodeWithName:@"ash"];
+    SKAction *d = [SKAction removeFromParent];
+    [ash runAction:[SKAction sequence:@[hide, d]]];
 }
 
 - (void)killZ
 {
     self.zombieCount++;
+    NSLog(@"zombieCount++ to %li",(long)self.zombieCount);
     SKNode   *body = [self.zombie childNodeWithName:@"body"];
     [body removeFromParent];
     
@@ -229,6 +271,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
     {
         [self zombie:(SKSpriteNode *) firstBody.node didCollideWithPrincess:(SKSpriteNode *) secondBody.node];
     }
+    if ((firstBody.categoryBitMask & monsterCategory) != 0 &&
+        (secondBody.categoryBitMask & princessCategory) != 0)
+    {
+        [self zombie:(SKSpriteNode *) firstBody.node didCollideWithWall:(SKShapeNode *) secondBody.node];
+    }
 }
 
 - (void)projectile:(SKSpriteNode *)brush didCollideWithMonster:(SKSpriteNode *)zombieBody
@@ -260,26 +307,45 @@ static const uint32_t princessCategory       =  0x1 << 2;
     }
 }
 
+- (void)zombie:(SKSpriteNode *)zombieBody didCollideWithWall:(SKShapeNode *)wall
+{
+    NSLog(@"PrincessDIE");
+    if (wall == self.wall)
+    {
+        [self Die];
+    }
+    
+    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    {
+        [self killZ];
+    }
+
+}
+
 - (void)Die
 {
+    self.alive = 0;
+    
     SKAction *hide = [SKAction fadeOutWithDuration:0.1];
     SKAction *show = [SKAction fadeInWithDuration:0.1];
     SKAction *wait = [SKAction waitForDuration:0.5];
     [self.princess runAction:[SKAction sequence:@[hide, wait, show, wait, hide, wait, show, wait, hide]]];
     
-    SKLabelNode *GameOver = [SKLabelNode node];
-    GameOver.text = @"Game Over";
-    GameOver.fontSize = 48;
-    GameOver.fontColor = [SKColor redColor];
-    GameOver.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    [self addChild:GameOver];
+    self.GameOver = [SKLabelNode node];
+    self.GameOver.text = @"Game Over";
+    self.GameOver.fontSize = 48;
+    self.GameOver.fontColor = [SKColor redColor];
+    self.GameOver.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    self.GameOver.name = @"GameOver";
+    [self addChild:self.GameOver];
     
-    SKLabelNode *ScoreText = [SKLabelNode node];
-    ScoreText.text = @"Your Score: ",self.zombieCount;
-    ScoreText.fontSize = 48;
-    ScoreText.fontColor = [SKColor redColor];
-    ScoreText.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
-    [self addChild:ScoreText];
+    self.ScoreText = [SKLabelNode node];
+    self.ScoreText.text = @"Your Score: ",self.zombieCount;
+    self.ScoreText.fontSize = 48;
+    self.ScoreText.fontColor = [SKColor redColor];
+    self.ScoreText.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
+    self.ScoreText.name = @"ScoreText";
+    [self addChild:self.ScoreText];
 }
 
 - (void)playGame
