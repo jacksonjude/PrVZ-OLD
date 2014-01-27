@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A16436A18938872006FEE95 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A16436918938872006FEE95 /* background.png */; };
-		7A7DB93F1890CDC900EBB851 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB93E1890CDC900EBB851 /* princess.png */; };
-		7A7DB941189222E800EBB851 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A7DB940189222E800EBB851 /* brush.png */; };
-		7ACD825E1894A86E00F972F9 /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ACD825D1894A86E00F972F9 /* zombie.png */; };
-		7ACD82601894D10800F972F9 /* ash.png in Resources */ = {isa = PBXBuildFile; fileRef = 7ACD825F1894D10800F972F9 /* ash.png */; };
+		7AAF6C841896099B00C01A01 /* zombieChar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C831896099B00C01A01 /* zombieChar.png */; };
+		7AAF6C8A189609CF00C01A01 /* ash.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C85189609CF00C01A01 /* ash.png */; };
+		7AAF6C8B189609CF00C01A01 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C86189609CF00C01A01 /* background.png */; };
+		7AAF6C8C189609CF00C01A01 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C87189609CF00C01A01 /* brush.png */; };
+		7AAF6C8D189609CF00C01A01 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C88189609CF00C01A01 /* princess.png */; };
+		7AAF6C8E189609CF00C01A01 /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C89189609CF00C01A01 /* zombie.png */; };
 		7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7D187CF07E00D4F868 /* Foundation.framework */; };
 		7ADD6B80187CF07E00D4F868 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */; };
 		7ADD6B82187CF07E00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
@@ -45,11 +46,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7A16436918938872006FEE95 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../Desktop/background.png; sourceTree = "<group>"; };
-		7A7DB93E1890CDC900EBB851 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = princess.png; path = ../../../Desktop/princess.png; sourceTree = "<group>"; };
-		7A7DB940189222E800EBB851 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush.png; path = ../../../Desktop/brush.png; sourceTree = "<group>"; };
-		7ACD825D1894A86E00F972F9 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = zombie.png; path = ../../../Desktop/zombie.png; sourceTree = "<group>"; };
-		7ACD825F1894D10800F972F9 /* ash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ash.png; path = ../../../Desktop/ash.png; sourceTree = "<group>"; };
+		7AAF6C831896099B00C01A01 /* zombieChar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombieChar.png; sourceTree = "<group>"; };
+		7AAF6C85189609CF00C01A01 /* ash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash.png; sourceTree = "<group>"; };
+		7AAF6C86189609CF00C01A01 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		7AAF6C87189609CF00C01A01 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brush.png; sourceTree = "<group>"; };
+		7AAF6C88189609CF00C01A01 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = princess.png; sourceTree = "<group>"; };
+		7AAF6C89189609CF00C01A01 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombie.png; sourceTree = "<group>"; };
 		7ADD6B7A187CF07E00D4F868 /* PVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B7D187CF07E00D4F868 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -140,11 +142,12 @@
 		7ADD6B83187CF07E00D4F868 /* PVZ */ = {
 			isa = PBXGroup;
 			children = (
-				7ACD825F1894D10800F972F9 /* ash.png */,
-				7ACD825D1894A86E00F972F9 /* zombie.png */,
-				7A16436918938872006FEE95 /* background.png */,
-				7A7DB940189222E800EBB851 /* brush.png */,
-				7A7DB93E1890CDC900EBB851 /* princess.png */,
+				7AAF6C85189609CF00C01A01 /* ash.png */,
+				7AAF6C86189609CF00C01A01 /* background.png */,
+				7AAF6C87189609CF00C01A01 /* brush.png */,
+				7AAF6C88189609CF00C01A01 /* princess.png */,
+				7AAF6C89189609CF00C01A01 /* zombie.png */,
+				7AAF6C831896099B00C01A01 /* zombieChar.png */,
 				7AF02397187FA70500362225 /* JCButton.h */,
 				7AF02398187FA70500362225 /* JCButton.m */,
 				7AF02399187FA70500362225 /* JCJoystick.h */,
@@ -271,13 +274,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AAF6C8D189609CF00C01A01 /* princess.png in Resources */,
+				7AAF6C8C189609CF00C01A01 /* brush.png in Resources */,
+				7AAF6C8A189609CF00C01A01 /* ash.png in Resources */,
+				7AAF6C8E189609CF00C01A01 /* zombie.png in Resources */,
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
+				7AAF6C8B189609CF00C01A01 /* background.png in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,
-				7A16436A18938872006FEE95 /* background.png in Resources */,
-				7ACD82601894D10800F972F9 /* ash.png in Resources */,
-				7ACD825E1894A86E00F972F9 /* zombie.png in Resources */,
-				7A7DB941189222E800EBB851 /* brush.png in Resources */,
-				7A7DB93F1890CDC900EBB851 /* princess.png in Resources */,
+				7AAF6C841896099B00C01A01 /* zombieChar.png in Resources */,
 				7ADD6B91187CF07E00D4F868 /* Main_iPhone.storyboard in Resources */,
 				7ADD6B88187CF07E00D4F868 /* InfoPlist.strings in Resources */,
 			);
