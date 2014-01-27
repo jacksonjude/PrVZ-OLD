@@ -13,6 +13,8 @@
 
 @interface JJViewController ()
 
+@property (nonatomic) NSInteger Dev;
+
 @end
 
 @implementation JJViewController
@@ -21,25 +23,39 @@
 {
     [super viewDidLoad];
     
+    self.Dev = 1;
+    
     SKView *spriteView = (SKView *) self.view;
-    spriteView.showsDrawCount = YES;
-    spriteView.showsNodeCount = YES;
-    spriteView.showsFPS = YES;    
+    if (self.Dev == 1)
+    {
+        NSLog(@"Dev Enabled");
+        NSLog(@"Enabling DrawCount");
+        spriteView.showsDrawCount = YES;
+        NSLog(@"Enabling NodeCount");
+        spriteView.showsNodeCount = YES;
+        NSLog(@"Enabling FPSCount");
+        spriteView.showsFPS = YES;
+    }
 }
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
     SKView *spriteView = (SKView*)self.view;
     CGSize aSize = CGSizeMake(568, 320);    //spriteView.frame.size;
     
-#if 0
-    TitleScene *title = [[TitleScene alloc] initWithSize:aSize];
-    [spriteView presentScene:title];
-#else
-    GameScene *game = [[GameScene alloc] initWithSize:aSize];
-    [spriteView presentScene:game];
-#endif
+    if (self.Dev == 0)
+    {
+        TitleScene *title = [[TitleScene alloc] initWithSize:aSize];
+        [spriteView presentScene:title];
+    }
+        
+    else
+    {
+        NSLog(@"Skipping to GameScene");
+        GameScene *game = [[GameScene alloc] initWithSize:aSize];
+        [spriteView presentScene:game];
+    }
+    
 }
 
 @end

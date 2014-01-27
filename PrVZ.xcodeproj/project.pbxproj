@@ -28,7 +28,7 @@
 		7ADD6BA2187CF07F00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
 		7ADD6BAA187CF07F00D4F868 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7ADD6BA8187CF07F00D4F868 /* InfoPlist.strings */; };
 		7ADD6BAC187CF07F00D4F868 /* PVZTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD6BAB187CF07F00D4F868 /* PVZTests.m */; };
-		7ADD6BB6187CF09400D4F868 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */; };
+		7ADD6BB6187CF09400D4F868 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		7ADD6BB9187CF34F00D4F868 /* TitleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ADD6BB8187CF34F00D4F868 /* TitleScene.m */; };
 		7AF02396187FA32200362225 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF02395187FA32200362225 /* GameScene.m */; };
 		7AF0239B187FA70500362225 /* JCButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AF02398187FA70500362225 /* JCButton.m */; };
@@ -52,11 +52,11 @@
 		7AAF6C87189609CF00C01A01 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brush.png; sourceTree = "<group>"; };
 		7AAF6C88189609CF00C01A01 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = princess.png; sourceTree = "<group>"; };
 		7AAF6C89189609CF00C01A01 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombie.png; sourceTree = "<group>"; };
-		7ADD6B7A187CF07E00D4F868 /* PVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ADD6B7A187CF07E00D4F868 /* PrVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B7D187CF07E00D4F868 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7ADD6B81187CF07E00D4F868 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		7ADD6B85187CF07E00D4F868 /* PVZ-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PVZ-Info.plist"; sourceTree = "<group>"; };
+		7ADD6B85187CF07E00D4F868 /* PrVZ-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrVZ-Info.plist"; sourceTree = "<group>"; };
 		7ADD6B87187CF07E00D4F868 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7ADD6B89187CF07E00D4F868 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7ADD6B8B187CF07E00D4F868 /* PVZ-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PVZ-Prefix.pch"; sourceTree = "<group>"; };
@@ -67,9 +67,9 @@
 		7ADD6B95187CF07E00D4F868 /* JJViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JJViewController.h; sourceTree = "<group>"; };
 		7ADD6B96187CF07E00D4F868 /* JJViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JJViewController.m; sourceTree = "<group>"; };
 		7ADD6B98187CF07E00D4F868 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		7ADD6B9E187CF07F00D4F868 /* PVZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PVZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ADD6B9E187CF07F00D4F868 /* PrVZTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrVZTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B9F187CF07F00D4F868 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		7ADD6BA7187CF07F00D4F868 /* PVZTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PVZTests-Info.plist"; sourceTree = "<group>"; };
+		7ADD6BA7187CF07F00D4F868 /* PrVZTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PrVZTests-Info.plist"; sourceTree = "<group>"; };
 		7ADD6BA9187CF07F00D4F868 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7ADD6BAB187CF07F00D4F868 /* PVZTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVZTests.m; sourceTree = "<group>"; };
 		7ADD6BB5187CF09400D4F868 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
@@ -121,8 +121,8 @@
 		7ADD6B7B187CF07E00D4F868 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7ADD6B7A187CF07E00D4F868 /* PVZ.app */,
-				7ADD6B9E187CF07F00D4F868 /* PVZTests.xctest */,
+				7ADD6B7A187CF07E00D4F868 /* PrVZ.app */,
+				7ADD6B9E187CF07F00D4F868 /* PrVZTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,7 +171,7 @@
 		7ADD6B84187CF07E00D4F868 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7ADD6B85187CF07E00D4F868 /* PVZ-Info.plist */,
+				7ADD6B85187CF07E00D4F868 /* PrVZ-Info.plist */,
 				7ADD6B86187CF07E00D4F868 /* InfoPlist.strings */,
 				7ADD6B89187CF07E00D4F868 /* main.m */,
 				7ADD6B8B187CF07E00D4F868 /* PVZ-Prefix.pch */,
@@ -191,7 +191,7 @@
 		7ADD6BA6187CF07F00D4F868 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				7ADD6BA7187CF07F00D4F868 /* PVZTests-Info.plist */,
+				7ADD6BA7187CF07F00D4F868 /* PrVZTests-Info.plist */,
 				7ADD6BA8187CF07F00D4F868 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -200,9 +200,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7ADD6B79187CF07E00D4F868 /* PVZ */ = {
+		7ADD6B79187CF07E00D4F868 /* PrVZ */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7ADD6BAF187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PVZ" */;
+			buildConfigurationList = 7ADD6BAF187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PrVZ" */;
 			buildPhases = (
 				7ADD6B76187CF07E00D4F868 /* Sources */,
 				7ADD6B77187CF07E00D4F868 /* Frameworks */,
@@ -212,14 +212,14 @@
 			);
 			dependencies = (
 			);
-			name = PVZ;
+			name = PrVZ;
 			productName = PVZ;
-			productReference = 7ADD6B7A187CF07E00D4F868 /* PVZ.app */;
+			productReference = 7ADD6B7A187CF07E00D4F868 /* PrVZ.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7ADD6B9D187CF07F00D4F868 /* PVZTests */ = {
+		7ADD6B9D187CF07F00D4F868 /* PrVZTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7ADD6BB2187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PVZTests" */;
+			buildConfigurationList = 7ADD6BB2187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PrVZTests" */;
 			buildPhases = (
 				7ADD6B9A187CF07F00D4F868 /* Sources */,
 				7ADD6B9B187CF07F00D4F868 /* Frameworks */,
@@ -230,9 +230,9 @@
 			dependencies = (
 				7ADD6BA4187CF07F00D4F868 /* PBXTargetDependency */,
 			);
-			name = PVZTests;
+			name = PrVZTests;
 			productName = PVZTests;
-			productReference = 7ADD6B9E187CF07F00D4F868 /* PVZTests.xctest */;
+			productReference = 7ADD6B9E187CF07F00D4F868 /* PrVZTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -250,7 +250,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7ADD6B75187CF07E00D4F868 /* Build configuration list for PBXProject "PVZ" */;
+			buildConfigurationList = 7ADD6B75187CF07E00D4F868 /* Build configuration list for PBXProject "PrVZ" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -263,8 +263,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7ADD6B79187CF07E00D4F868 /* PVZ */,
-				7ADD6B9D187CF07F00D4F868 /* PVZTests */,
+				7ADD6B79187CF07E00D4F868 /* PrVZ */,
+				7ADD6B9D187CF07F00D4F868 /* PrVZTests */,
 			);
 		};
 /* End PBXProject section */
@@ -325,7 +325,7 @@
 /* Begin PBXTargetDependency section */
 		7ADD6BA4187CF07F00D4F868 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7ADD6B79187CF07E00D4F868 /* PVZ */;
+			target = 7ADD6B79187CF07E00D4F868 /* PrVZ */;
 			targetProxy = 7ADD6BA3187CF07F00D4F868 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -446,9 +446,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PVZ/PVZ-Prefix.pch";
-				INFOPLIST_FILE = "PVZ/PVZ-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "PVZ/PrVZ-Prefix.pch";
+				INFOPLIST_FILE = "PVZ/PrVZ-Info.plist";
+				PRODUCT_NAME = PrVZ;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -459,9 +459,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PVZ/PVZ-Prefix.pch";
-				INFOPLIST_FILE = "PVZ/PVZ-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "PVZ/PrVZ-Prefix.pch";
+				INFOPLIST_FILE = "PVZ/PrVZ-Info.plist";
+				PRODUCT_NAME = PrVZ;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -482,8 +482,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "PVZTests/PVZTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PVZTests/PrVZTests-Info.plist";
+				PRODUCT_NAME = PrVZTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -501,8 +501,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PVZ/PVZ-Prefix.pch";
-				INFOPLIST_FILE = "PVZTests/PVZTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "PVZTests/PrVZTests-Info.plist";
+				PRODUCT_NAME = PrVZTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -511,7 +511,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7ADD6B75187CF07E00D4F868 /* Build configuration list for PBXProject "PVZ" */ = {
+		7ADD6B75187CF07E00D4F868 /* Build configuration list for PBXProject "PrVZ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7ADD6BAD187CF07F00D4F868 /* Debug */,
@@ -520,7 +520,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7ADD6BAF187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PVZ" */ = {
+		7ADD6BAF187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PrVZ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7ADD6BB0187CF07F00D4F868 /* Debug */,
@@ -529,7 +529,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7ADD6BB2187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PVZTests" */ = {
+		7ADD6BB2187CF07F00D4F868 /* Build configuration list for PBXNativeTarget "PrVZTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7ADD6BB3187CF07F00D4F868 /* Debug */,

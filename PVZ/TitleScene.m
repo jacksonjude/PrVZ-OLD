@@ -49,7 +49,7 @@
     SKLabelNode *title2Node = [SKLabelNode labelNodeWithFontNamed:@"Times"];
     title2Node.text = @"Princesses";
     title2Node.fontSize = 30;
-    title2Node.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
+    title2Node.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)+100);
     title2Node.name = @"title2Node";
     SKAction *fade = [SKAction fadeOutWithDuration:0];
     [title2Node runAction:fade];
@@ -61,7 +61,7 @@
     SKLabelNode *title3Node = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     title3Node.text = @"vs.";
     title3Node.fontSize = 30;
-    title3Node.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)-50);
+    title3Node.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
     title3Node.name = @"title3Node";
     SKAction *fade = [SKAction fadeOutWithDuration:0];
     [title3Node runAction:fade];
