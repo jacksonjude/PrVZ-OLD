@@ -195,6 +195,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     self.zombieCount = 0;
     self.zombieSpeed = 0;
+    self.alive = 1;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
     [self.gameOverLabel runAction:hide];
@@ -225,6 +226,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self.zombie removeAllActions];
     
     self.zombieAlive = 0;
+    
 }
 
 
@@ -269,7 +271,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
         secondBody = contact.bodyA;
     }
     
-    // 2
     if ((firstBody.categoryBitMask & projectileCategory) != 0 &&
         (secondBody.categoryBitMask & monsterCategory) != 0)
     {
@@ -326,7 +327,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
     
     if (zombieBody == [self.zombie childNodeWithName:@"body"])
     {
-        sleep(1);
         [self killZ];
     }
 
@@ -350,7 +350,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self addChild:self.gameOverLabel];
     
     self.scoreLabel = [SKLabelNode node];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %i", self.zombieCount];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.zombieCount];
     self.scoreLabel.fontSize = 48;
     self.scoreLabel.fontColor = [SKColor redColor];
     self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
@@ -458,9 +458,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
         [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
     }
 }
-
-
-
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
