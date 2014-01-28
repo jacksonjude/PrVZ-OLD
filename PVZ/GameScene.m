@@ -23,14 +23,14 @@
 @property (strong, nonatomic) SKShapeNode *textBox;
 @property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKLabelNode *helpContent;
-@property (strong, nonatomic) SKSpriteNode *zombie;
 @property (strong, nonatomic) SKShapeNode *wall;
 @property (strong, nonatomic) SKLabelNode *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode *scoreLabel;
-@property (nonatomic) NSInteger zombieCount;
-@property (nonatomic) NSInteger zombieAlive;
+@property (nonatomic) NSInteger numZombiesKilled;
+@property (nonatomic) NSInteger numZombiesAlive;
 @property (nonatomic) NSInteger zombieSpeed;
-@property (nonatomic) NSInteger alive;
+@property (nonatomic) NSInteger numPrincessLives;
+@property (nonatomic) NSMutableArray *zombies;
 @end
 
 @implementation GameScene
@@ -155,17 +155,16 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self.textBox setPosition:CGPointMake(CGRectGetMidX(self.frame)-284, 225)];
     [self addChild:self.textBox];
     
-    self.alive = 1;
-}
-
-- (void)isZombieTouching
-{
+    self.numPrincessLives = 1;
     
+    self.zombies = [[NSMutableArray alloc] init];
+    
+    self.zombieSpeed = 0;
 }
 
 - (void)checkButtons
 {
-    if (self.alive == 1)
+    if (self.numPrincessLives == 1)
     {
         if (self.normalButton.isOn)
         {
@@ -177,11 +176,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
         }
         if (self.playButton.isOn)
         {
-            [self playGame];
+            [self playGame:3];
         }
     }
     
-    if (self.alive == 0)
+    if (self.numPrincessLives == 0)
     {
         if (self.resetButton.isOn)
         {
@@ -193,40 +192,42 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)reset
 {
-    self.zombieCount = 0;
+    self.numZombiesKilled = 0;
     self.zombieSpeed = 0;
-    self.alive = 1;
+    self.numPrincessLives = 1;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
     [self.gameOverLabel runAction:hide];
     [self.scoreLabel runAction:hide];
     [self.princess runAction:show];
     
-    SKNode *ash = [self.zombie childNodeWithName:@"ash"];
-    SKAction *d = [SKAction removeFromParent];
-    [ash runAction:[SKAction sequence:@[hide, d]]];
+    for (SKSpriteNode *aZombie in self.zombies)
+    {
+        SKNode *ash = [aZombie childNodeWithName:@"ash"];
+        SKAction *d = [SKAction removeFromParent];
+        [ash runAction:[SKAction sequence:@[hide, d]]];
+    }
 }
 
-- (void)killZ
+- (void)killZ:(SKSpriteNode*)aZombie
 {
-    if (self.alive == 1)
+    if (self.numPrincessLives == 1)
     {
-        self.zombieCount++;
+        self.numZombiesKilled++;
     }
     
-    NSLog(@"zombieCount++ to %li",(long)self.zombieCount);
-    SKNode   *body = [self.zombie childNodeWithName:@"body"];
+    NSLog(@"zombieCount++ to %li",(long)self.numZombiesKilled);
+    SKNode   *body = [aZombie childNodeWithName:@"body"];
     [body removeFromParent];
     
     SKSpriteNode *zombieD = [SKSpriteNode spriteNodeWithImageNamed:@"ash.png"];
     zombieD.zPosition = -1;
     zombieD.name = @"ash";
-    [self.zombie addChild:zombieD];
+    [aZombie addChild:zombieD];
     
-    [self.zombie removeAllActions];
+    [aZombie removeAllActions];
     
-    self.zombieAlive = 0;
-    
+    self.numZombiesAlive -= 1;
 }
 
 
@@ -297,9 +298,12 @@ static const uint32_t princessCategory       =  0x1 << 2;
         self.brush = nil;
     }
     
-    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    for (SKSpriteNode *aZombie in self.zombies)
     {
-        [self killZ];
+        if (zombieBody == [aZombie childNodeWithName:@"body"])
+        {
+            [self killZ:aZombie];
+        }
     }
 }
 
@@ -311,9 +315,12 @@ static const uint32_t princessCategory       =  0x1 << 2;
         [self Die];
     }
     
-    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    for (SKSpriteNode *aZombie in self.zombies)
     {
-        [self killZ];
+        if (zombieBody == [aZombie childNodeWithName:@"body"])
+        {
+            [self killZ:aZombie];
+        }
     }
 }
 
@@ -325,16 +332,18 @@ static const uint32_t princessCategory       =  0x1 << 2;
         [self Die];
     }
     
-    if (zombieBody == [self.zombie childNodeWithName:@"body"])
+    for (SKSpriteNode *aZombie in self.zombies)
     {
-        [self killZ];
+        if (zombieBody == [aZombie childNodeWithName:@"body"])
+        {
+            [self killZ:aZombie];
+        }
     }
-
 }
 
 - (void)Die
 {
-    self.alive = 0;
+    self.numPrincessLives = 0;
     
     SKAction *hide = [SKAction fadeOutWithDuration:0.1];
     SKAction *show = [SKAction fadeInWithDuration:0.1];
@@ -350,7 +359,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self addChild:self.gameOverLabel];
     
     self.scoreLabel = [SKLabelNode node];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.zombieCount];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.numZombiesKilled];
     self.scoreLabel.fontSize = 48;
     self.scoreLabel.fontColor = [SKColor redColor];
     self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
@@ -358,44 +367,54 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self addChild:self.scoreLabel];
 }
 
-- (void)playGame
+- (void)playGame:(NSUInteger)numberOfZombies
 {
-    if (self.zombieAlive == 0)
+    if (self.numZombiesAlive == 0)
     {
-        self.zombieAlive = 1;
-        
-        self.zombie = [SKSpriteNode node];
-        [self addChild:self.zombie];
-        
-        int values[6] = {25, 50, 75, 100, 125, 150};
-        int value = values[random() % 6];
-        self.zombie.position = CGPointMake(500, value);
-        
-        SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombieChar.png"];
-        zombieNA.size = CGSizeMake(zombieNA.size.width*0.07, zombieNA.size.height*0.07);
-        zombieNA.zPosition = -1;
-        zombieNA.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:zombieNA.size]; // 1
-        zombieNA.physicsBody.dynamic = YES; // 2
-        zombieNA.physicsBody.categoryBitMask = monsterCategory; // 3
-        zombieNA.physicsBody.contactTestBitMask = projectileCategory; // 4
-        zombieNA.physicsBody.collisionBitMask = 0; // 5
-        zombieNA.name = @"body";
-        [self.zombie addChild:zombieNA];
-        
-        if (self.zombieSpeed != 0)
+        for (SKSpriteNode *aZombie in self.zombies)
         {
-            self.zombieSpeed = self.zombieSpeed*2;
-            NSLog(@"Increased zombie speed by 50 percent to:%li",(long)self.zombieSpeed);
+            [aZombie removeFromParent];
         }
+        [self.zombies removeAllObjects];
         
-        if (self.zombieSpeed == 0)
+        while (self.numZombiesAlive < numberOfZombies)
         {
-            self.zombieSpeed = -1;
+            self.numZombiesAlive += 1;
+
+            SKSpriteNode    *zombie = [SKSpriteNode node];
+            
+            int values[6] = {25, 50, 75, 100, 125, 150};
+            int value = values[random() % 6];
+            zombie.position = CGPointMake(500, value);
+            
+            SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombieChar.png"];
+            zombieNA.size = CGSizeMake(zombieNA.size.width*0.07, zombieNA.size.height*0.07);
+            zombieNA.zPosition = -1;
+            zombieNA.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:zombieNA.size];
+            zombieNA.physicsBody.dynamic = YES;
+            zombieNA.physicsBody.categoryBitMask = monsterCategory;
+            zombieNA.physicsBody.contactTestBitMask = projectileCategory;
+            zombieNA.physicsBody.collisionBitMask = 0;
+            zombieNA.name = @"body";
+            [zombie addChild:zombieNA];
+            
+            if (self.zombieSpeed != 0)
+            {
+                self.zombieSpeed = self.zombieSpeed * 1.5;
+                NSLog(@"Increased zombie speed by 50 percent to:%i", self.zombieSpeed);
+            }
+            
+            if (self.zombieSpeed == 0)
+            {
+                self.zombieSpeed = -1;
+            }
+            
+            SKAction *moveZombie = [SKAction moveByX:self.zombieSpeed y:0 duration:0.1];
+            [zombie runAction:[SKAction repeatActionForever:[SKAction sequence:@[moveZombie]]]];
+            
+            [self addChild:zombie];
+            [self.zombies addObject:zombie];
         }
-        
-        SKAction *moveZombie = [SKAction moveByX:self.zombieSpeed y:0 duration:0.1];
-        [self.zombie runAction:[SKAction repeatActionForever:[SKAction sequence:@[moveZombie]]]];
-        
     }
 }
 
@@ -477,7 +496,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y*2)];
     [self checkButtons];
-    [self isZombieTouching];
 }
 
 @end
