@@ -26,10 +26,13 @@
 @property (strong, nonatomic) SKShapeNode *wall;
 @property (strong, nonatomic) SKLabelNode *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode *scoreLabel;
+@property (strong ,nonatomic) SKLabelNode *waveText;
+@property (strong, nonatomic) SKLabelNode *zombiesKilledText;
 @property (nonatomic) NSInteger numZombiesKilled;
 @property (nonatomic) NSInteger numZombiesAlive;
-@property (nonatomic) NSInteger zombieSpeed;
 @property (nonatomic) NSInteger numPrincessLives;
+@property (nonatomic) NSInteger timesPressedStart;
+@property (nonatomic) NSInteger canPressStart;
 @property (nonatomic) NSMutableArray *zombies;
 @end
 
@@ -155,11 +158,26 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self.textBox setPosition:CGPointMake(CGRectGetMidX(self.frame)-284, 225)];
     [self addChild:self.textBox];
     
+    self.waveText = [SKLabelNode node];
+    self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.numZombiesKilled];
+    self.waveText.fontSize = 20;
+    self.waveText.position = CGPointMake(CGRectGetMidX(self.frame), 25);
+    self.waveText.fontColor = [SKColor blackColor];
+    [self addChild:self.waveText];
+    
+    self.zombiesKilledText = [SKLabelNode node];
+    self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
+    self.zombiesKilledText.position = CGPointMake(CGRectGetMidX(self.frame), 7);
+    self.zombiesKilledText.fontSize = 20;
+    self.zombiesKilledText.fontColor = [SKColor blackColor];
+    [self addChild:self.zombiesKilledText];
+    
     self.numPrincessLives = 1;
     
     self.zombies = [[NSMutableArray alloc] init];
     
-    self.zombieSpeed = 0;
+    self.canPressStart = 1;
+    
 }
 
 - (void)checkButtons
@@ -176,7 +194,22 @@ static const uint32_t princessCategory       =  0x1 << 2;
         }
         if (self.playButton.isOn)
         {
-            [self playGame:3];
+            if (self.canPressStart == 1)
+            {
+                self.timesPressedStart++;
+                
+                if (self.zombieSpeed == 0)
+                {
+                    self.zombieSpeed = -1;
+                }
+                
+                self.zombieSpeed = self.zombieSpeed * self.timesPressedStart;
+                NSLog(@"Increased zombie speed by 1 to:%f", self.zombieSpeed);
+                
+                self.canPressStart = 0;
+                
+                [self playGame:3];
+            }
         }
     }
     
@@ -195,6 +228,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.numZombiesKilled = 0;
     self.zombieSpeed = 0;
     self.numPrincessLives = 1;
+    self.timesPressedStart = 0;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
     [self.gameOverLabel runAction:hide];
@@ -228,6 +262,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [aZombie removeAllActions];
     
     self.numZombiesAlive -= 1;
+    
+    if (self.numZombiesAlive == 0)
+    {
+        self.canPressStart = 1;
+    }
 }
 
 
@@ -380,15 +419,15 @@ static const uint32_t princessCategory       =  0x1 << 2;
         while (self.numZombiesAlive < numberOfZombies)
         {
             self.numZombiesAlive += 1;
-
+            
             SKSpriteNode    *zombie = [SKSpriteNode node];
             
-            int values[6] = {25, 50, 75, 100, 125, 150};
-            int value = values[random() % 6];
+            int values[14] = {12, 25, 37, 50, 62, 75, 87, 100, 112, 125, 137, 150, 162, 175};
+            int value = values[random() % 14];
             zombie.position = CGPointMake(500, value);
             
             SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombieChar.png"];
-            zombieNA.size = CGSizeMake(zombieNA.size.width*0.07, zombieNA.size.height*0.07);
+            zombieNA.size = CGSizeMake(zombieNA.size.width*0.04, zombieNA.size.height*0.04);
             zombieNA.zPosition = -1;
             zombieNA.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:zombieNA.size];
             zombieNA.physicsBody.dynamic = YES;
@@ -397,17 +436,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
             zombieNA.physicsBody.collisionBitMask = 0;
             zombieNA.name = @"body";
             [zombie addChild:zombieNA];
-            
-            if (self.zombieSpeed != 0)
-            {
-                self.zombieSpeed = self.zombieSpeed * 1.5;
-                NSLog(@"Increased zombie speed by 50 percent to:%i", self.zombieSpeed);
-            }
-            
-            if (self.zombieSpeed == 0)
-            {
-                self.zombieSpeed = -1;
-            }
             
             SKAction *moveZombie = [SKAction moveByX:self.zombieSpeed y:0 duration:0.1];
             [zombie runAction:[SKAction repeatActionForever:[SKAction sequence:@[moveZombie]]]];
@@ -496,6 +524,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y*2)];
     [self checkButtons];
+    self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.timesPressedStart];
+    self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
 }
 
 @end

@@ -12,7 +12,6 @@
 		7AAF6C8B189609CF00C01A01 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C86189609CF00C01A01 /* background.png */; };
 		7AAF6C8C189609CF00C01A01 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C87189609CF00C01A01 /* brush.png */; };
 		7AAF6C8D189609CF00C01A01 /* princess.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C88189609CF00C01A01 /* princess.png */; };
-		7AAF6C8E189609CF00C01A01 /* zombie.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C89189609CF00C01A01 /* zombie.png */; };
 		7ADD6B7E187CF07E00D4F868 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7D187CF07E00D4F868 /* Foundation.framework */; };
 		7ADD6B80187CF07E00D4F868 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */; };
 		7ADD6B82187CF07E00D4F868 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ADD6B81187CF07E00D4F868 /* UIKit.framework */; };
@@ -51,7 +50,6 @@
 		7AAF6C86189609CF00C01A01 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		7AAF6C87189609CF00C01A01 /* brush.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brush.png; sourceTree = "<group>"; };
 		7AAF6C88189609CF00C01A01 /* princess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = princess.png; sourceTree = "<group>"; };
-		7AAF6C89189609CF00C01A01 /* zombie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombie.png; sourceTree = "<group>"; };
 		7ADD6B7A187CF07E00D4F868 /* PrVZ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrVZ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ADD6B7D187CF07E00D4F868 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7ADD6B7F187CF07E00D4F868 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -146,7 +144,6 @@
 				7AAF6C86189609CF00C01A01 /* background.png */,
 				7AAF6C87189609CF00C01A01 /* brush.png */,
 				7AAF6C88189609CF00C01A01 /* princess.png */,
-				7AAF6C89189609CF00C01A01 /* zombie.png */,
 				7AAF6C831896099B00C01A01 /* zombieChar.png */,
 				7AF02397187FA70500362225 /* JCButton.h */,
 				7AF02398187FA70500362225 /* JCButton.m */,
@@ -277,7 +274,6 @@
 				7AAF6C8D189609CF00C01A01 /* princess.png in Resources */,
 				7AAF6C8C189609CF00C01A01 /* brush.png in Resources */,
 				7AAF6C8A189609CF00C01A01 /* ash.png in Resources */,
-				7AAF6C8E189609CF00C01A01 /* zombie.png in Resources */,
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
 				7AAF6C8B189609CF00C01A01 /* background.png in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,

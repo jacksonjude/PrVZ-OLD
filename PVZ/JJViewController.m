@@ -14,6 +14,7 @@
 @interface JJViewController ()
 
 @property (nonatomic) NSInteger Dev;
+@property (nonatomic) NSInteger stuff;
 
 @end
 
@@ -29,12 +30,17 @@
     if (self.Dev == 1)
     {
         NSLog(@"Dev Enabled");
-        NSLog(@"Enabling DrawCount");
-        spriteView.showsDrawCount = YES;
-        NSLog(@"Enabling NodeCount");
-        spriteView.showsNodeCount = YES;
+
+        if (self.stuff == 1)
+        {
+            NSLog(@"Enabling DrawCount");
+            spriteView.showsDrawCount = YES;
+        }
         NSLog(@"Enabling FPSCount");
         spriteView.showsFPS = YES;
+        
+        NSLog(@"Enabling NodeCount");
+        spriteView.showsNodeCount = YES;
     }
 }
 
