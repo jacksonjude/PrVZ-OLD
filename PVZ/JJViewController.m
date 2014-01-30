@@ -15,6 +15,7 @@
 
 @property (nonatomic) NSInteger Dev;
 @property (nonatomic) NSInteger stuff;
+@property (nonatomic) SKView *spriteView;
 
 @end
 
@@ -24,9 +25,13 @@
 {
     [super viewDidLoad];
     
+    UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectMake(130, 235, 0, 0)];
+    [mySwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:mySwitch];
+    
     self.Dev = 1;
     
-    SKView *spriteView = (SKView *) self.view;
+    self.spriteView = (SKView *) self.view;
     if (self.Dev == 1)
     {
         NSLog(@"Dev Enabled");
@@ -34,13 +39,24 @@
         if (self.stuff == 1)
         {
             NSLog(@"Enabling DrawCount");
-            spriteView.showsDrawCount = YES;
+            self.spriteView.showsDrawCount = YES;
         }
         NSLog(@"Enabling FPSCount");
-        spriteView.showsFPS = YES;
+        self.spriteView.showsFPS = YES;
         
         NSLog(@"Enabling NodeCount");
-        spriteView.showsNodeCount = YES;
+        self.spriteView.showsNodeCount = YES;
+    }
+}
+
+- (void)changeSwitch:(id)sender{
+    if([sender isOn]){
+        // Execute any code when the switch is ON
+        
+        NSLog(@"Dev Switch is ON");
+    } else{
+        // Execute any code when the switch is OFF
+        NSLog(@"Dev Switch is OFF");
     }
 }
 

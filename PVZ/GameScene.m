@@ -177,7 +177,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombies = [[NSMutableArray alloc] init];
     
     self.canPressStart = 1;
-    
 }
 
 - (void)checkButtons
@@ -229,6 +228,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombieSpeed = 0;
     self.numPrincessLives = 1;
     self.timesPressedStart = 0;
+    self.numZombiesAlive = 0;
+    self.canPressStart = 1;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
     [self.gameOverLabel runAction:hide];
@@ -422,8 +423,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
             
             SKSpriteNode    *zombie = [SKSpriteNode node];
             
-            int values[14] = {12, 25, 37, 50, 62, 75, 87, 100, 112, 125, 137, 150, 162, 175};
-            int value = values[random() % 14];
+            int values[15] = {12, 25, 37, 50, 62, 75, 87, 100, 112, 125, 137, 150, 162, 175, 187};
+            int value = values[random() % 15];
             zombie.position = CGPointMake(500, value);
             
             SKSpriteNode *zombieNA = [SKSpriteNode spriteNodeWithImageNamed:@"zombieChar.png"];
