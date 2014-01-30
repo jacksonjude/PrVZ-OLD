@@ -33,6 +33,7 @@
 @property (nonatomic) NSInteger numPrincessLives;
 @property (nonatomic) NSInteger timesPressedStart;
 @property (nonatomic) NSInteger canPressStart;
+@property (nonatomic) NSInteger numZombiesToSpawn;
 @property (nonatomic) NSMutableArray *zombies;
 @end
 
@@ -172,11 +173,30 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombiesKilledText.fontColor = [SKColor blackColor];
     [self addChild:self.zombiesKilledText];
     
+    UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectMake(30, 30, 0, 0)];
+    [mySwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:mySwitch];
+    
     self.numPrincessLives = 1;
     
     self.zombies = [[NSMutableArray alloc] init];
     
     self.canPressStart = 1;
+    
+    self.numZombiesToSpawn = 3;
+}
+
+- (void)changeSwitch:(id)sender{
+    
+    if([sender isOn]){
+        NSLog(@"Hard Mode is ON");
+        self.numZombiesToSpawn = 6;
+    }
+    else{
+        NSLog(@"Hard Mode is OFF");
+        self.numZombiesToSpawn = 3;
+    }
+    
 }
 
 - (void)checkButtons
@@ -207,7 +227,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
                 
                 self.canPressStart = 0;
                 
-                [self playGame:3];
+                [self playGame:self.numZombiesToSpawn];
             }
         }
     }
