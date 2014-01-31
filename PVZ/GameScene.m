@@ -17,10 +17,12 @@
 @property (strong, nonatomic) JCButton *helpButton;
 @property (strong, nonatomic) JCButton *playButton;
 @property (strong, nonatomic) JCButton *resetButton;
+@property (retain, nonatomic) IBOutlet UISwitch *hardSwitch;
 @property (strong, nonatomic) SKLabelNode *myLabel;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
 @property (strong, nonatomic) SKShapeNode *textBox;
+@property (strong, nonatomic) SKShapeNode *helpBox;
 @property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKLabelNode *helpContent;
 @property (strong, nonatomic) SKShapeNode *wall;
@@ -33,6 +35,7 @@
 @property (nonatomic) NSInteger numPrincessLives;
 @property (nonatomic) NSInteger timesPressedStart;
 @property (nonatomic) NSInteger canPressStart;
+@property (nonatomic) NSInteger canPressReset;
 @property (nonatomic) NSInteger numZombiesToSpawn;
 @property (nonatomic) NSMutableArray *zombies;
 @end
@@ -94,13 +97,13 @@ static const uint32_t princessCategory       =  0x1 << 2;
         playButtonTitle.fontSize = 18;
         [self.playButton addChild:playButtonTitle];
     
-    self.helpButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    self.helpButton = [[JCButton alloc] initWithButtonRadius:30 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
     [self.helpButton setPosition:CGPointMake(CGRectGetMidX(self.frame), 275)];
     self.helpButton.zPosition = +1;
     [self addChild:self.helpButton];
     
         SKLabelNode     *helpButtonTitle = [SKLabelNode node];
-        helpButtonTitle.text = @"Help";
+        helpButtonTitle.text = @"Settings";
         [helpButtonTitle setPosition:CGPointMake(0, -6.25)];
         helpButtonTitle.fontSize = 18;
         [self.helpButton addChild:helpButtonTitle];
@@ -173,9 +176,23 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombiesKilledText.fontColor = [SKColor blackColor];
     [self addChild:self.zombiesKilledText];
     
-    UISwitch *mySwitch = [[UISwitch alloc] initWithFrame:CGRectMake(30, 30, 0, 0)];
-    [mySwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:mySwitch];
+    self.hardSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.frame)-25, CGRectGetMidY(self.frame)+100, 0, 0)];
+    [self.hardSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.hardSwitch];
+    self.hardSwitch.hidden = YES;
+    
+    self.helpBox = [SKShapeNode node];
+    CGMutablePathRef  rectPath2 = CGPathCreateMutable();
+    CGPathAddRect(rectPath2, nil, CGRectMake(0, 0, 375, 200));
+    self.helpBox.path = rectPath2;
+    CGPathRelease(rectPath2);
+    self.helpBox.fillColor =  [SKColor grayColor];
+    self.helpBox.lineWidth = 0;
+    self.helpBox.zPosition = +1;
+    [self.helpBox setPosition:CGPointMake(100, 10)];
+    [self addChild:self.helpBox];
+    
+    self.helpBox.hidden = YES;
     
     self.numPrincessLives = 1;
     
@@ -184,6 +201,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.canPressStart = 1;
     
     self.numZombiesToSpawn = 3;
+    
+    self.canPressReset = 0;
 }
 
 - (void)changeSwitch:(id)sender{
@@ -232,10 +251,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
         }
     }
     
-    if (self.numPrincessLives == 0)
+    if (self.canPressReset < 6)
     {
         if (self.resetButton.isOn)
         {
+            self.canPressReset++;
             [self reset];
             NSLog(@"Reseting...");
         }
@@ -252,8 +272,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.canPressStart = 1;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
-    [self.gameOverLabel runAction:hide];
-    [self.scoreLabel runAction:hide];
+    self.gameOverLabel.hidden = YES;
+    self.scoreLabel.hidden = YES;
     [self.princess runAction:show];
     
     for (SKSpriteNode *aZombie in self.zombies)
@@ -425,6 +445,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
     self.scoreLabel.name = @"ScoreText";
     [self addChild:self.scoreLabel];
+    
+    for (SKSpriteNode *aZombie in self.zombies)
+    {
+        [aZombie removeFromParent];
+    }
 }
 
 - (void)playGame:(NSUInteger)numberOfZombies
@@ -472,6 +497,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     if (self.helpContent == nil)
     {
+        self.helpBox.hidden = NO;
+        
         self.helpContent = [SKLabelNode node];
         self.helpContent.text = @"Help";
         self.helpContent.fontSize = 18;
@@ -524,6 +551,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
         SKAction *fadeIn = [SKAction fadeInWithDuration:0.5];
         SKAction *s = [SKAction sequence:@[fadeOut, fadeIn]];
         [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
+        
+        self.hardSwitch.hidden = NO;
     }
 }
 
@@ -538,6 +567,10 @@ static const uint32_t princessCategory       =  0x1 << 2;
                            }];
         SKAction *destroy = [SKAction removeFromParent];
         [self.helpContent runAction:[SKAction repeatActionForever:[SKAction sequence:@[hide, clear, destroy]]]];
+        
+        self.helpBox.hidden = YES;
+        
+        self.hardSwitch.hidden = YES;
     }
 }
 
@@ -547,6 +580,14 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self checkButtons];
     self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.timesPressedStart];
     self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
+    
+    if (self.numPrincessLives == 0)
+    {
+        if (self.canPressReset != 0)
+        {
+            self.canPressReset = 0;
+        }
+    }
 }
 
 @end
