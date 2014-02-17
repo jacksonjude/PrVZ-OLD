@@ -178,13 +178,13 @@ static const uint32_t princessCategory       =  0x1 << 2;
     
     self.helpBox = [SKShapeNode node];
     CGMutablePathRef  rectPath2 = CGPathCreateMutable();
-    CGPathAddRect(rectPath2, nil, CGRectMake(0, 0, 375, 200));
+    CGPathAddRect(rectPath2, nil, CGRectMake(0, 0, 568, 225));
     self.helpBox.path = rectPath2;
     CGPathRelease(rectPath2);
     self.helpBox.fillColor =  [SKColor grayColor];
     self.helpBox.lineWidth = 0;
     self.helpBox.zPosition = +1;
-    [self.helpBox setPosition:CGPointMake(100, 10)];
+    [self.helpBox setPosition:CGPointMake(0, 0)];
     [self addChild:self.helpBox];
     
     self.gameOverLabel = [SKLabelNode node];
@@ -503,12 +503,16 @@ static const uint32_t princessCategory       =  0x1 << 2;
     {
         self.helpBox.hidden = NO;
         
+        self.normalButton.hidden = YES;
+        
+        self.joystick.hidden = YES;
+        
         self.helpContent = [SKLabelNode node];
         self.helpContent.text = @"Help";
         self.helpContent.fontSize = 18;
         self.helpContent.fontColor = [SKColor redColor];
         self.helpContent.zPosition = +2;
-        [self.helpContent setPosition:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+10)];
+        [self.helpContent setPosition:CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+40)];
         [self addChild:self.helpContent];
         
         SKLabelNode *helpContentLine2 = [SKLabelNode node];
@@ -556,6 +560,15 @@ static const uint32_t princessCategory       =  0x1 << 2;
         SKAction *s = [SKAction sequence:@[fadeOut, fadeIn]];
         [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
         
+        SKLabelNode *sliderText = [SKLabelNode node];
+        sliderText.text = @"Zombie Spawn";
+        sliderText.fontSize = 18;
+        sliderText.fontColor = [SKColor greenColor];
+        sliderText.zPosition = +2;
+        sliderText.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-100);
+        sliderText.name = @"sliderText";
+        [self addChild:sliderText];
+        
         self.slider.hidden = NO;
     }
 }
@@ -570,12 +583,19 @@ static const uint32_t princessCategory       =  0x1 << 2;
                                self.helpContent = nil;
                            }];
         SKAction *destroy = [SKAction removeFromParent];
-        [self.helpContent runAction:[SKAction repeatActionForever:[SKAction sequence:@[hide, clear, destroy]]]];
+        [self.helpContent runAction:[SKAction sequence:@[hide, clear, destroy]]];
+        
+        SKNode *sliderText = [self childNodeWithName:@"sliderText"];
+        
+        [sliderText runAction:[SKAction sequence:@[hide, clear, destroy]]];
         
         self.helpBox.hidden = YES;
         
         self.slider.hidden = YES;
         
+        self.normalButton.hidden = NO;
+        
+        self.joystick.hidden = NO;
     }
 }
 
