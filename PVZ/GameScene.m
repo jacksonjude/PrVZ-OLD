@@ -176,7 +176,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombiesKilledText.fontColor = [SKColor blackColor];
     [self addChild:self.zombiesKilledText];
     
-    self.hardSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.frame)-25, CGRectGetMidY(self.frame)+100, 0, 0)];
+    self.hardSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+100, 0, 0)];
     [self.hardSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.hardSwitch];
     self.hardSwitch.hidden = YES;
