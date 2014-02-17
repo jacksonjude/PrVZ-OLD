@@ -52,6 +52,7 @@
     if (self.Dev == 0)
     {
         TitleScene *title = [[TitleScene alloc] initWithSize:aSize];
+        title.slider = self.slider;
         [spriteView presentScene:title];
     }
         
@@ -59,6 +60,7 @@
     {
         NSLog(@"Skipping to GameScene");
         GameScene *game = [[GameScene alloc] initWithSize:aSize];
+        game.slider = self.slider;
         [spriteView presentScene:game];
     }
     

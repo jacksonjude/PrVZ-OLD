@@ -133,7 +133,8 @@
         [title4Node runAction: moveSequence completion:^
          {
              CGSize aSize = self.size;
-             SKScene *gameScene  = [[GameScene alloc] initWithSize:aSize];
+             GameScene *gameScene  = [[GameScene alloc] initWithSize:aSize];
+             gameScene.slider = self.slider;
              SKTransition *doors = [SKTransition doorsOpenVerticalWithDuration:0.5];
              [self.view presentScene:gameScene transition:doors];
          }];

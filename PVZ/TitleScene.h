@@ -10,4 +10,6 @@
 
 @interface TitleScene : SKScene
 
+@property (strong, nonatomic)   IBOutlet    UISlider    *slider;
+
 @end

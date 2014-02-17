@@ -17,7 +17,6 @@
 @property (strong, nonatomic) JCButton *helpButton;
 @property (strong, nonatomic) JCButton *playButton;
 @property (strong, nonatomic) JCButton *resetButton;
-@property (retain, nonatomic) IBOutlet UISwitch *hardSwitch;
 @property (strong, nonatomic) SKLabelNode *myLabel;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
@@ -37,6 +36,7 @@
 @property (nonatomic) NSInteger canPressStart;
 @property (nonatomic) NSInteger canPressReset;
 @property (nonatomic) NSInteger numZombiesToSpawn;
+@property (nonatomic) NSInteger princessLives;
 @property (nonatomic) NSMutableArray *zombies;
 @end
 
@@ -176,11 +176,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.zombiesKilledText.fontColor = [SKColor blackColor];
     [self addChild:self.zombiesKilledText];
     
-    self.hardSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+100, 0, 0)];
-    [self.hardSwitch addTarget:self action:@selector(changeSwitch:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:self.hardSwitch];
-    self.hardSwitch.hidden = YES;
-    
     self.helpBox = [SKShapeNode node];
     CGMutablePathRef  rectPath2 = CGPathCreateMutable();
     CGPathAddRect(rectPath2, nil, CGRectMake(0, 0, 375, 200));
@@ -192,6 +187,28 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self.helpBox setPosition:CGPointMake(100, 10)];
     [self addChild:self.helpBox];
     
+    self.gameOverLabel = [SKLabelNode node];
+    self.gameOverLabel.text = @"Game Over";
+    self.gameOverLabel.fontSize = 48;
+    self.gameOverLabel.fontColor = [SKColor redColor];
+    self.gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    self.gameOverLabel.name = @"GameOver";
+    [self addChild:self.gameOverLabel];
+    
+    self.gameOverLabel.hidden = YES;
+    
+    self.scoreLabel = [SKLabelNode node];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.numZombiesKilled];
+    self.scoreLabel.fontSize = 48;
+    self.scoreLabel.fontColor = [SKColor redColor];
+    self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
+    self.scoreLabel.name = @"ScoreText";
+    [self addChild:self.scoreLabel];
+    
+    self.scoreLabel.hidden = YES;
+    
+    self.slider.hidden = YES;
+    
     self.helpBox.hidden = YES;
     
     self.numPrincessLives = 1;
@@ -200,22 +217,9 @@ static const uint32_t princessCategory       =  0x1 << 2;
     
     self.canPressStart = 1;
     
-    self.numZombiesToSpawn = 3;
-    
     self.canPressReset = 0;
-}
-
-- (void)changeSwitch:(id)sender{
     
-    if([sender isOn]){
-        NSLog(@"Hard Mode is ON");
-        self.numZombiesToSpawn = 6;
-    }
-    else{
-        NSLog(@"Hard Mode is OFF");
-        self.numZombiesToSpawn = 3;
-    }
-    
+    self.princessLives = 1;
 }
 
 - (void)checkButtons
@@ -264,6 +268,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)reset
 {
+    self.princessLives = 1;
     self.numZombiesKilled = 0;
     self.zombieSpeed = 0;
     self.numPrincessLives = 1;
@@ -272,8 +277,10 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.canPressStart = 1;
     SKAction *hide = [SKAction fadeOutWithDuration:0];
     SKAction *show = [SKAction fadeInWithDuration:0];
+    
     self.gameOverLabel.hidden = YES;
     self.scoreLabel.hidden = YES;
+    
     [self.princess runAction:show];
     
     for (SKSpriteNode *aZombie in self.zombies)
@@ -389,39 +396,49 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)zombie:(SKSpriteNode *)zombieBody didCollideWithPrincess:(SKSpriteNode *)princess
 {
-    NSLog(@"PrincessDIE");
-    if (princess == self.princess)
-    {
-        [self Die];
-    }
+    self.princessLives--;
     
-    for (SKSpriteNode *aZombie in self.zombies)
+    if (self.princessLives <= 0)
     {
-        if (zombieBody == [aZombie childNodeWithName:@"body"])
+        NSLog(@"PrincessDIE");
+        if (princess == self.princess)
         {
-            [self killZ:aZombie];
+            [self princessMustDie];
+        }
+        
+        for (SKSpriteNode *aZombie in self.zombies)
+        {
+            if (zombieBody == [aZombie childNodeWithName:@"body"])
+            {
+                [self killZ:aZombie];
+            }
         }
     }
 }
 
 - (void)zombie:(SKSpriteNode *)zombieBody didCollideWithWall:(SKShapeNode *)wall
 {
-    NSLog(@"PrincessDIE");
-    if (wall == self.wall)
-    {
-        [self Die];
-    }
+    self.princessLives--;
     
-    for (SKSpriteNode *aZombie in self.zombies)
+    if (self.princessLives <=0)
     {
-        if (zombieBody == [aZombie childNodeWithName:@"body"])
+        NSLog(@"PrincessDIE");
+        if (wall == self.wall)
         {
-            [self killZ:aZombie];
+            [self princessMustDie];
+        }
+        
+        for (SKSpriteNode *aZombie in self.zombies)
+        {
+            if (zombieBody == [aZombie childNodeWithName:@"body"])
+            {
+                [self killZ:aZombie];
+            }
         }
     }
 }
 
-- (void)Die
+- (void)princessMustDie
 {
     self.numPrincessLives = 0;
     
@@ -430,21 +447,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     SKAction *wait = [SKAction waitForDuration:0.5];
     [self.princess runAction:[SKAction sequence:@[hide, wait, show, wait, hide, wait, show, wait, hide]]];
     
-    self.gameOverLabel = [SKLabelNode node];
-    self.gameOverLabel.text = @"Game Over";
-    self.gameOverLabel.fontSize = 48;
-    self.gameOverLabel.fontColor = [SKColor redColor];
-    self.gameOverLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    self.gameOverLabel.name = @"GameOver";
-    [self addChild:self.gameOverLabel];
-    
-    self.scoreLabel = [SKLabelNode node];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.numZombiesKilled];
-    self.scoreLabel.fontSize = 48;
-    self.scoreLabel.fontColor = [SKColor redColor];
-    self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
-    self.scoreLabel.name = @"ScoreText";
-    [self addChild:self.scoreLabel];
+    self.gameOverLabel.hidden = NO;
+    self.scoreLabel.hidden = NO;
     
     for (SKSpriteNode *aZombie in self.zombies)
     {
@@ -552,7 +556,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
         SKAction *s = [SKAction sequence:@[fadeOut, fadeIn]];
         [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
         
-        self.hardSwitch.hidden = NO;
+        self.slider.hidden = NO;
     }
 }
 
@@ -570,7 +574,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
         
         self.helpBox.hidden = YES;
         
-        self.hardSwitch.hidden = YES;
+        self.slider.hidden = YES;
+        
     }
 }
 
@@ -580,6 +585,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self checkButtons];
     self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.timesPressedStart];
     self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
+    
+    self.numZombiesToSpawn = self.slider.value;
     
     if (self.numPrincessLives == 0)
     {

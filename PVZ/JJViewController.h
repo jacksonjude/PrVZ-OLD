@@ -10,4 +10,6 @@
 
 @interface JJViewController : UIViewController
 
+@property (strong, nonatomic)   IBOutlet    UISlider    *slider;
+
 @end

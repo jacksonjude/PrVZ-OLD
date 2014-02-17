@@ -11,5 +11,6 @@
 @interface GameScene : SKScene <SKPhysicsContactDelegate>
 
 @property (nonatomic) CGFloat zombieSpeed;
+@property (strong, nonatomic)   IBOutlet    UISlider    *slider;
 
 @end
