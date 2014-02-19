@@ -216,7 +216,6 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.gameOverLabel.hidden = YES;
     
     self.scoreLabel = [SKLabelNode node];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li", (long)self.numZombiesKilled];
     self.scoreLabel.fontSize = 48;
     self.scoreLabel.fontColor = [SKColor redColor];
     self.scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-52);
@@ -690,6 +689,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
     [self checkButtons];
     self.waveText.text = [NSString stringWithFormat:@"Wave #: %lli", (long long)self.timesPressedStart];
     self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li",(long)self.numZombiesKilled];
     
     self.numZombiesToSpawn = self.slider.value;
     
