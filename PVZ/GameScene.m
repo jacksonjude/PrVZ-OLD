@@ -9,26 +9,30 @@
 #import "GameScene.h"
 #import "JCJoystick.h"
 #import "JCButton.h"
+#import "JCActionButton.h"
 
 @interface GameScene ()
 @property BOOL contentCreated;
 @property (strong, nonatomic) JCJoystick *joystick;
 @property (strong, nonatomic) JCButton *normalButton;
-@property (strong, nonatomic) JCButton *helpButton;
+@property (strong, nonatomic) JCActionButton *helpButton;
+@property (strong, nonatomic) JCActionButton *hideHelpButton;
 @property (strong, nonatomic) JCButton *playButton;
 @property (strong, nonatomic) JCButton *resetButton;
-@property (strong, nonatomic) SKLabelNode *myLabel;
+@property (strong, nonatomic) JCButton *storeButton;
+@property (strong, nonatomic) JCActionButton *hideStoreButton;
+@property (strong, nonatomic) SKNode *storeContent;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
+@property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKShapeNode *textBox;
 @property (strong, nonatomic) SKShapeNode *helpBox;
-@property (strong, nonatomic) SKSpriteNode *background;
 @property (strong, nonatomic) SKLabelNode *helpContent;
-@property (strong, nonatomic) SKShapeNode *wall;
 @property (strong, nonatomic) SKLabelNode *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode *scoreLabel;
 @property (strong ,nonatomic) SKLabelNode *waveText;
 @property (strong, nonatomic) SKLabelNode *zombiesKilledText;
+@property (strong, nonatomic) SKShapeNode *wall;
 @property (nonatomic) NSInteger numZombiesKilled;
 @property (nonatomic) NSInteger numZombiesAlive;
 @property (nonatomic) NSInteger numPrincessLives;
@@ -37,6 +41,7 @@
 @property (nonatomic) NSInteger canPressReset;
 @property (nonatomic) NSInteger numZombiesToSpawn;
 @property (nonatomic) NSInteger princessLives;
+@property (nonatomic) NSInteger coins;
 @property (nonatomic) NSMutableArray *zombies;
 @end
 
@@ -97,13 +102,15 @@ static const uint32_t princessCategory       =  0x1 << 2;
         playButtonTitle.fontSize = 18;
         [self.playButton addChild:playButtonTitle];
     
-    self.helpButton = [[JCButton alloc] initWithButtonRadius:30 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    self.helpButton = [[JCActionButton alloc] initWithButtonRadius:30 color:[SKColor redColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    self.helpButton.target = self;
+    self.helpButton.selector = @selector(showHelp);
     [self.helpButton setPosition:CGPointMake(CGRectGetMidX(self.frame), 275)];
     self.helpButton.zPosition = +1;
     [self addChild:self.helpButton];
     
         SKLabelNode     *helpButtonTitle = [SKLabelNode node];
-        helpButtonTitle.text = @"Settings";
+        helpButtonTitle.text = @"Help";
         [helpButtonTitle setPosition:CGPointMake(0, -6.25)];
         helpButtonTitle.fontSize = 18;
         [self.helpButton addChild:helpButtonTitle];
@@ -118,6 +125,17 @@ static const uint32_t princessCategory       =  0x1 << 2;
         [killButtonTitle setPosition:CGPointMake(0, -6.25)];
         killButtonTitle.fontSize = 18;
         [self.resetButton addChild:killButtonTitle];
+    
+    self.storeButton = [[JCButton alloc] initWithButtonRadius:25 color:[SKColor blueColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+    [self.storeButton setPosition:CGPointMake(self.frame.size.width -40, 175)];
+     self.storeButton.zPosition = +2;
+    [self addChild:self.storeButton];
+    
+        SKLabelNode *storeButtonTitle = [SKLabelNode node];
+        storeButtonTitle.text = @"Store";
+        [storeButtonTitle setPosition:CGPointMake(0, -6.25)];
+        storeButtonTitle.fontSize = 18;
+        [self.storeButton addChild:storeButtonTitle];
     
     self.princess = [SKSpriteNode spriteNodeWithImageNamed:@"princess.png"];
     self.princess.position = CGPointMake(80, 125);
@@ -230,10 +248,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
         {
             [self addBrushIn:CGPointMake(0,self.size.height-40)];
         }
-        if (self.helpButton.isOn)
-        {
-            [self showHelp];
-        }
+        
         if (self.playButton.isOn)
         {
             if (self.canPressStart == 1)
@@ -253,6 +268,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
                 [self playGame:self.numZombiesToSpawn];
             }
         }
+        
+        if (self.storeButton.isOn)
+        {
+            [self store];
+        }
     }
     
     if (self.canPressReset < 6)
@@ -263,6 +283,63 @@ static const uint32_t princessCategory       =  0x1 << 2;
             [self reset];
             NSLog(@"Reseting...");
         }
+    }
+}
+
+- (void)store
+{
+    if (self.storeContent == nil)
+    {
+        self.helpBox.hidden = NO;
+        
+        self.storeButton.hidden = YES;
+        
+        self.normalButton.hidden = YES;
+        
+        self.joystick.hidden = YES;
+        
+        self.hideStoreButton = [[JCActionButton alloc] initWithButtonRadius:25 color:[SKColor greenColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+        self.hideStoreButton.position = CGPointMake(self.frame.size.width -40, 175);
+        self.hideStoreButton.target = self;
+        self.hideStoreButton.selector = @selector(hideStore);
+        self.hideStoreButton.zPosition = +2;
+        [self addChild:self.hideStoreButton];
+        
+        SKLabelNode *hideStoreButtonTitle = [SKLabelNode node];
+        hideStoreButtonTitle.text = @"Back";
+        hideStoreButtonTitle.position = CGPointMake(0, -6.25);
+        hideStoreButtonTitle.fontSize = 18;
+        [self.hideStoreButton addChild:hideStoreButtonTitle];
+        
+        self.storeContent = [SKNode node];
+        self.storeContent.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+        [self addChild:self.storeContent];
+        
+        SKSpriteNode *healthPack = [SKSpriteNode spriteNodeWithImageNamed:@"healthPack"];
+        //healthPack.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+        healthPack.zPosition = +2;
+        [self.storeContent addChild:healthPack];
+    }
+}
+
+- (void)hideStore
+{
+    if (self.storeContent != nil)
+    {
+        self.helpBox.hidden = YES;
+        
+        self.storeButton.hidden = NO;
+        
+        self.joystick.hidden = NO;
+        
+        self.normalButton.hidden = NO;
+        
+        SKAction *destroy = [SKAction removeFromParent];
+        
+        [self.storeContent runAction:[SKAction sequence:@[destroy]]];
+        [self.hideStoreButton runAction:[SKAction sequence:@[destroy]]];
+        
+        self.storeContent = nil;
     }
 }
 
@@ -507,6 +584,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
         
         self.joystick.hidden = YES;
         
+        self.storeButton.hidden = YES;
+        
         self.helpContent = [SKLabelNode node];
         self.helpContent.text = @"Help";
         self.helpContent.fontSize = 18;
@@ -546,20 +625,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
         helpContentLine5.zPosition = +2;
         [helpContentLine5 setPosition:CGPointMake(0, -80)];
         [self.helpContent addChild:helpContentLine5];
-        
-        SKLabelNode *helpContentLine6 = [SKLabelNode node];
-        helpContentLine6.text = @"Touch to Close";
-        helpContentLine6.fontSize = 18;
-        helpContentLine6.fontColor = [SKColor redColor];
-        helpContentLine6.zPosition = +2;
-        [helpContentLine6 setPosition:CGPointMake(0, -100)];
-        [self.helpContent addChild:helpContentLine6];
-        
-        SKAction *fadeOut = [SKAction fadeOutWithDuration:0.5];
-        SKAction *fadeIn = [SKAction fadeInWithDuration:0.5];
-        SKAction *s = [SKAction sequence:@[fadeOut, fadeIn]];
-        [helpContentLine6 runAction:[SKAction repeatActionForever:s]];
-        
+
         SKLabelNode *sliderText = [SKLabelNode node];
         sliderText.text = @"Zombie Spawn";
         sliderText.fontSize = 18;
@@ -569,11 +635,25 @@ static const uint32_t princessCategory       =  0x1 << 2;
         sliderText.name = @"sliderText";
         [self addChild:sliderText];
         
+        self.hideHelpButton = [[JCActionButton alloc] initWithButtonRadius:25 color:[SKColor greenColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+        self.hideHelpButton.target = self;
+        self.hideHelpButton.selector = @selector(hideHelp);
+        [self.hideHelpButton setPosition:CGPointMake(self.frame.size.width -40, 175)];
+        self.hideHelpButton.zPosition = +5;
+        [self addChild:self.hideHelpButton];
+        
+            SKLabelNode *hideHelpButtonTitle = [SKLabelNode node];
+            hideHelpButtonTitle.text = @"Back";
+            [hideHelpButtonTitle setPosition:CGPointMake(0, -6.25)];
+            hideHelpButtonTitle.fontSize = 18;
+            [self.hideHelpButton addChild:hideHelpButtonTitle];
+        
         self.slider.hidden = NO;
     }
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+
+- (void)hideHelp
 {
     if (self.helpContent != nil)
     {
@@ -584,6 +664,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
                            }];
         SKAction *destroy = [SKAction removeFromParent];
         [self.helpContent runAction:[SKAction sequence:@[hide, clear, destroy]]];
+        
+        [self.hideHelpButton runAction:[SKAction sequence:@[clear, destroy]]];
         
         SKNode *sliderText = [self childNodeWithName:@"sliderText"];
         
@@ -596,6 +678,9 @@ static const uint32_t princessCategory       =  0x1 << 2;
         self.normalButton.hidden = NO;
         
         self.joystick.hidden = NO;
+        
+        self.storeButton.hidden = NO;
+        
     }
 }
 
@@ -603,10 +688,15 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y*2)];
     [self checkButtons];
-    self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.timesPressedStart];
+    self.waveText.text = [NSString stringWithFormat:@"Wave #: %lli", (long long)self.timesPressedStart];
     self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
     
     self.numZombiesToSpawn = self.slider.value;
+    
+    if (self.numZombiesAlive == 0)
+    {
+        self.coins = self.numZombiesKilled;
+    }
     
     if (self.numPrincessLives == 0)
     {
