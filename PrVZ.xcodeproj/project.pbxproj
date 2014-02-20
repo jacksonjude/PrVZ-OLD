@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A3A2D9018B5C1ED00BC5571 /* coin.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A3A2D8F18B5C1ED00BC5571 /* coin.png */; };
 		7AAF6C841896099B00C01A01 /* zombieChar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C831896099B00C01A01 /* zombieChar.png */; };
 		7AAF6C8A189609CF00C01A01 /* ash.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C85189609CF00C01A01 /* ash.png */; };
 		7AAF6C8B189609CF00C01A01 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AAF6C86189609CF00C01A01 /* background.png */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A3A2D8F18B5C1ED00BC5571 /* coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coin.png; sourceTree = "<group>"; };
 		7AAF6C831896099B00C01A01 /* zombieChar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zombieChar.png; sourceTree = "<group>"; };
 		7AAF6C85189609CF00C01A01 /* ash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash.png; sourceTree = "<group>"; };
 		7AAF6C86189609CF00C01A01 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		7ADD6B83187CF07E00D4F868 /* PVZ */ = {
 			isa = PBXGroup;
 			children = (
+				7A3A2D8F18B5C1ED00BC5571 /* coin.png */,
 				7AC0C89818B4658C002F4FD1 /* crossedHealthPack.png */,
 				7AC0C89618B46242002F4FD1 /* healthPack.png */,
 				7AAF6C85189609CF00C01A01 /* ash.png */,
@@ -290,6 +293,7 @@
 				7ADD6B94187CF07E00D4F868 /* Main_iPad.storyboard in Resources */,
 				7AAF6C8B189609CF00C01A01 /* background.png in Resources */,
 				7ADD6B99187CF07E00D4F868 /* Images.xcassets in Resources */,
+				7A3A2D9018B5C1ED00BC5571 /* coin.png in Resources */,
 				7AAF6C841896099B00C01A01 /* zombieChar.png in Resources */,
 				7ADD6B91187CF07E00D4F868 /* Main_iPhone.storyboard in Resources */,
 				7ADD6B88187CF07E00D4F868 /* InfoPlist.strings in Resources */,

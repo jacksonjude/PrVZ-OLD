@@ -17,30 +17,32 @@
 @property (strong, nonatomic) JCButton *normalButton;
 @property (strong, nonatomic) JCActionButton *helpButton;
 @property (strong, nonatomic) JCActionButton *hideHelpButton;
+@property (strong, nonatomic) JCActionButton *hideStoreButton;
 @property (strong, nonatomic) JCButton *playButton;
 @property (strong, nonatomic) JCButton *resetButton;
 @property (strong, nonatomic) JCButton *storeButton;
-@property (strong, nonatomic) JCActionButton *hideStoreButton;
 @property (strong, nonatomic) SKNode *storeContent;
 @property (strong, nonatomic) SKSpriteNode *princess;
 @property (strong, nonatomic) SKSpriteNode *brush;
 @property (strong, nonatomic) SKSpriteNode *background;
+@property (strong, nonatomic) SKSpriteNode *coinLabelPicture;
 @property (strong, nonatomic) SKShapeNode *textBox;
 @property (strong, nonatomic) SKShapeNode *helpBox;
 @property (strong, nonatomic) SKLabelNode *helpContent;
 @property (strong, nonatomic) SKLabelNode *gameOverLabel;
 @property (strong, nonatomic) SKLabelNode *scoreLabel;
-@property (strong ,nonatomic) SKLabelNode *waveText;
+@property (strong, nonatomic) SKLabelNode *waveText;
 @property (strong, nonatomic) SKLabelNode *zombiesKilledText;
+@property (strong, nonatomic) SKLabelNode *coinLabel;
 @property (strong, nonatomic) SKShapeNode *wall;
 @property (nonatomic) NSInteger numZombiesKilled;
 @property (nonatomic) NSInteger numZombiesAlive;
-@property (nonatomic) NSInteger numPrincessLives;
+@property (nonatomic) NSInteger numPrincessLivesForTesting;
 @property (nonatomic) NSInteger timesPressedStart;
 @property (nonatomic) NSInteger canPressStart;
-@property (nonatomic) NSInteger canPressReset;
+@property (nonatomic) NSInteger canNotPressReset;
 @property (nonatomic) NSInteger numZombiesToSpawn;
-@property (nonatomic) NSInteger princessLives;
+@property (nonatomic) NSInteger numPrincessLives;
 @property (nonatomic) NSInteger coins;
 @property (nonatomic) NSMutableArray *zombies;
 @end
@@ -222,26 +224,38 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.scoreLabel.name = @"ScoreText";
     [self addChild:self.scoreLabel];
     
+    self.coinLabel = [SKLabelNode node];
+    self.coinLabel.fontSize = 24;
+    self.coinLabel.fontColor = [SKColor redColor];
+    self.coinLabel.position = CGPointMake(self.frame.size.width -40, 250);
+    self.coinLabel.zPosition = +3;
+    [self addChild:self.coinLabel];
+    
+        self.coinLabelPicture = [SKSpriteNode spriteNodeWithImageNamed:@"coin"];
+        self.coinLabelPicture.position = CGPointMake(-30, 10);
+        self.coinLabelPicture.zPosition = +2;
+        [self.coinLabel addChild:self.coinLabelPicture];
+    
     self.scoreLabel.hidden = YES;
     
     self.slider.hidden = YES;
     
     self.helpBox.hidden = YES;
     
-    self.numPrincessLives = 1;
+    self.numPrincessLivesForTesting = 1;
     
     self.zombies = [[NSMutableArray alloc] init];
     
     self.canPressStart = 1;
     
-    self.canPressReset = 0;
+    self.canNotPressReset = 0;
     
-    self.princessLives = 1;
+    self.numPrincessLives = 1;
 }
 
 - (void)checkButtons
 {
-    if (self.numPrincessLives == 1)
+    if (self.numPrincessLivesForTesting == 1)
     {
         if (self.normalButton.isOn)
         {
@@ -274,11 +288,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
         }
     }
     
-    if (self.canPressReset < 6)
+    if (self.canNotPressReset == 0)
     {
         if (self.resetButton.isOn)
         {
-            self.canPressReset++;
+            self.canNotPressReset++;
             [self reset];
             NSLog(@"Reseting...");
         }
@@ -318,6 +332,19 @@ static const uint32_t princessCategory       =  0x1 << 2;
         //healthPack.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
         healthPack.zPosition = +2;
         [self.storeContent addChild:healthPack];
+        
+        JCActionButton *healthPackBuyButton = [[JCActionButton alloc] initWithButtonRadius:25 color:[SKColor blueColor] pressedColor:[SKColor blackColor] isTurbo:NO];
+        healthPackBuyButton.position = CGPointMake(-50, 0);
+        healthPackBuyButton.zPosition = +2;
+        healthPackBuyButton.target = self;
+        healthPackBuyButton.selector = @selector(buyHealthPack);
+        [healthPack addChild:healthPackBuyButton];
+        
+            SKLabelNode *healthPackBuyButtonTitle = [SKLabelNode node];
+            healthPackBuyButtonTitle.text = @"Buy";
+            healthPackBuyButtonTitle.position = CGPointMake(0, -6.25);
+            healthPackBuyButtonTitle.fontSize = 18;
+            [healthPackBuyButton addChild:healthPackBuyButtonTitle];
     }
 }
 
@@ -342,12 +369,20 @@ static const uint32_t princessCategory       =  0x1 << 2;
     }
 }
 
+- (void)buyHealthPack
+{
+    if (self.coins == 20)
+    {
+        self.numPrincessLives++;
+    }
+}
+
 - (void)reset
 {
-    self.princessLives = 1;
+    self.numPrincessLives = 1;
     self.numZombiesKilled = 0;
     self.zombieSpeed = 0;
-    self.numPrincessLives = 1;
+    self.numPrincessLivesForTesting = 1;
     self.timesPressedStart = 0;
     self.numZombiesAlive = 0;
     self.canPressStart = 1;
@@ -369,7 +404,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)killZ:(SKSpriteNode*)aZombie
 {
-    if (self.numPrincessLives == 1)
+    if (self.numPrincessLivesForTesting == 1)
     {
         self.numZombiesKilled++;
     }
@@ -472,9 +507,9 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)zombie:(SKSpriteNode *)zombieBody didCollideWithPrincess:(SKSpriteNode *)princess
 {
-    self.princessLives--;
+    self.numPrincessLives--;
     
-    if (self.princessLives <= 0)
+    if (self.numPrincessLives <= 0)
     {
         NSLog(@"PrincessDIE");
         if (princess == self.princess)
@@ -494,9 +529,9 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)zombie:(SKSpriteNode *)zombieBody didCollideWithWall:(SKShapeNode *)wall
 {
-    self.princessLives--;
+    self.numPrincessLives--;
     
-    if (self.princessLives <=0)
+    if (self.numPrincessLives <=0)
     {
         NSLog(@"PrincessDIE");
         if (wall == self.wall)
@@ -516,7 +551,7 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)princessMustDie
 {
-    self.numPrincessLives = 0;
+    self.numPrincessLivesForTesting = 0;
     
     SKAction *hide = [SKAction fadeOutWithDuration:0.1];
     SKAction *show = [SKAction fadeInWithDuration:0.1];
@@ -687,9 +722,10 @@ static const uint32_t princessCategory       =  0x1 << 2;
 {
     [self.princess setPosition:CGPointMake(self.princess.position.x, self.princess.position.y+self.joystick.y*2)];
     [self checkButtons];
-    self.waveText.text = [NSString stringWithFormat:@"Wave #: %lli", (long long)self.timesPressedStart];
-    self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %li",(long)self.numZombiesKilled];
-    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %li",(long)self.numZombiesKilled];
+    self.waveText.text = [NSString stringWithFormat:@"Wave #: %li", (long)self.timesPressedStart];
+    self.zombiesKilledText.text = [NSString stringWithFormat:@"Zombies Killed: %lli",(long long)self.numZombiesKilled];
+    self.scoreLabel.text = [NSString stringWithFormat:@"Your Score: %lli",(long long)self.numZombiesKilled];
+    self.coinLabel.text = [NSString stringWithFormat:@"%lli",(long long)self.coins];
     
     self.numZombiesToSpawn = self.slider.value;
     
@@ -698,11 +734,11 @@ static const uint32_t princessCategory       =  0x1 << 2;
         self.coins = self.numZombiesKilled;
     }
     
-    if (self.numPrincessLives == 0)
+    if (self.numPrincessLivesForTesting == 0)
     {
-        if (self.canPressReset != 0)
+        if (self.canNotPressReset != 0)
         {
-            self.canPressReset = 0;
+            self.canNotPressReset = 0;
         }
     }
 }
