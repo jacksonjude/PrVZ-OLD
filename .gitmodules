@@ -1,0 +1,3 @@
+[submodule "third-party/SuperSpriteKit"]
+	path = third-party/SuperSpriteKit
+	url = https://github.com/JohnSundell/SuperSpriteKit.git
