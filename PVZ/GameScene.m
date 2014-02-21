@@ -44,6 +44,7 @@
 @property (nonatomic) NSInteger numZombiesToSpawn;
 @property (nonatomic) NSInteger numPrincessLives;
 @property (nonatomic) NSInteger coins;
+@property (nonatomic) NSInteger levelIsRunning;
 @property (nonatomic) NSMutableArray *zombies;
 @end
 
@@ -251,6 +252,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
     self.canNotPressReset = 0;
     
     self.numPrincessLives = 1;
+    
+    self.levelIsRunning = 0;
 }
 
 - (void)checkButtons
@@ -334,11 +337,12 @@ static const uint32_t princessCategory       =  0x1 << 2;
         [self.storeContent addChild:healthPack];
         
         JCActionButton *healthPackBuyButton = [[JCActionButton alloc] initWithButtonRadius:25 color:[SKColor blueColor] pressedColor:[SKColor blackColor] isTurbo:NO];
-        healthPackBuyButton.position = CGPointMake(-50, 0);
-        healthPackBuyButton.zPosition = +2;
+        healthPackBuyButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+        healthPackBuyButton.zPosition = +5;
         healthPackBuyButton.target = self;
         healthPackBuyButton.selector = @selector(buyHealthPack);
-        [healthPack addChild:healthPackBuyButton];
+        healthPackBuyButton.name = @"button1";
+        [self addChild:healthPackBuyButton];
         
             SKLabelNode *healthPackBuyButtonTitle = [SKLabelNode node];
             healthPackBuyButtonTitle.text = @"Buy";
@@ -360,10 +364,13 @@ static const uint32_t princessCategory       =  0x1 << 2;
         
         self.normalButton.hidden = NO;
         
+        SKNode *button1 = [self childNodeWithName:@"button1"];
+        
         SKAction *destroy = [SKAction removeFromParent];
         
         [self.storeContent runAction:[SKAction sequence:@[destroy]]];
         [self.hideStoreButton runAction:[SKAction sequence:@[destroy]]];
+        [button1 runAction:[SKAction sequence:@[destroy]]];
         
         self.storeContent = nil;
     }
@@ -371,9 +378,16 @@ static const uint32_t princessCategory       =  0x1 << 2;
 
 - (void)buyHealthPack
 {
-    if (self.coins == 20)
+    NSLog(@"Checking coins");
+    if (self.coins == 3)
     {
         self.numPrincessLives++;
+        self.coins-=3;
+        NSLog(@"Added one life");
+    }
+    else
+    {
+        NSLog(@"Not enough coins");
     }
 }
 
@@ -525,6 +539,16 @@ static const uint32_t princessCategory       =  0x1 << 2;
             }
         }
     }
+    else
+    {
+        for (SKSpriteNode *aZombie in self.zombies)
+        {
+            if (zombieBody == [aZombie childNodeWithName:@"body"])
+            {
+                [self killZ:aZombie];
+            }
+        }
+    }
 }
 
 - (void)zombie:(SKSpriteNode *)zombieBody didCollideWithWall:(SKShapeNode *)wall
@@ -576,6 +600,8 @@ static const uint32_t princessCategory       =  0x1 << 2;
             [aZombie removeFromParent];
         }
         [self.zombies removeAllObjects];
+        
+        self.levelIsRunning = 1;
         
         while (self.numZombiesAlive < numberOfZombies)
         {
@@ -729,9 +755,13 @@ static const uint32_t princessCategory       =  0x1 << 2;
     
     self.numZombiesToSpawn = self.slider.value;
     
-    if (self.numZombiesAlive == 0)
+    if (self.levelIsRunning == 1)
     {
-        self.coins = self.numZombiesKilled;
+        if (self.numZombiesAlive == 0)
+        {
+            self.coins = self.numZombiesKilled;
+            self.levelIsRunning = 0;
+        }
     }
     
     if (self.numPrincessLivesForTesting == 0)
